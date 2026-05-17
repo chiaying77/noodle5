@@ -273,7 +273,6 @@ body {
 <div class="left">
   <div class="left-header">
     <div class="left-title">點　餐</div>
-    <div class="total-line">待煮 <b id="totalCount">0</b> 份</div>
   </div>
   <div class="order-btns" id="orderBtns"></div>
 </div>
@@ -413,7 +412,6 @@ function updateBtnCounts() {
     if (cnt>0) el.classList.add('show'); else el.classList.remove('show');
   });
   var total = tiles.length;
-  document.getElementById('totalCount').textContent = total;
   document.getElementById('pendingCount').textContent = total;
 }
 
