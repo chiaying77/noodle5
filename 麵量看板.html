@@ -108,23 +108,48 @@ body {
 .btn-count.show { display: block; }
 
 /* divider */
-.left-divider {
-  height: 1px; background: #2a2a2a; margin: 0 12px;
-}
-
-.reset-btn {
-  margin: 12px;
-  min-height: 48px;
-  border-radius: 12px;
-  border: 2px solid #3a1818;
-  background: #1e0e0e;
-  color: #ff5555;
-  font-size: 16px; font-weight: 700;
+.reset-corner {
+  position: fixed;
+  bottom: calc(16px + var(--safe-bottom));
+  right: calc(16px + var(--safe-right));
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 2px solid #2a2a2a;
+  background: #181818;
+  color: #444;
+  font-size: 20px;
   cursor: pointer;
-  -webkit-appearance: none; appearance: none;
-  touch-action: manipulation;
+  display: -webkit-flex; display: flex;
+  -webkit-align-items: center; align-items: center;
+  -webkit-justify-content: center; justify-content: center;
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: none;
+  z-index: 100;
+  -webkit-transition: border-color .2s, background .2s, color .2s;
+  transition: border-color .2s, background .2s, color .2s;
 }
-.reset-btn:active { opacity: 0.6; }
+.reset-corner.pressing {
+  border-color: #ff5555;
+  background: #2a1010;
+  color: #ff5555;
+}
+.reset-corner svg {
+  position: absolute; top: 0; left: 0;
+  -webkit-transform: rotate(-90deg); transform: rotate(-90deg);
+  pointer-events: none;
+}
+.reset-corner circle {
+  fill: none; stroke: #ff5555; stroke-width: 3;
+  stroke-dasharray: 163; stroke-dashoffset: 163;
+  stroke-linecap: round;
+  -webkit-transition: none; transition: none;
+}
+.reset-corner.pressing circle {
+  stroke-dashoffset: 0;
+  -webkit-transition: stroke-dashoffset 3s linear;
+  transition: stroke-dashoffset 3s linear;
+}
 
 /* ══════════════════════════
    RIGHT PANEL — 看板
@@ -264,8 +289,6 @@ body {
     <div class="total-line">待煮 <b id="totalCount">0</b> 份</div>
   </div>
   <div class="order-btns" id="orderBtns"></div>
-  <div class="left-divider"></div>
-  <button type="button" class="reset-btn" onclick="confirmReset()">全部清除</button>
 </div>
 
 <!-- RIGHT: 看板 -->
@@ -282,6 +305,12 @@ body {
   </div>
 </div>
 
+<div class="reset-corner" id="resetCorner">
+  <svg width="56" height="56" viewBox="0 0 56 56">
+    <circle cx="28" cy="28" r="26" id="resetRing"/>
+  </svg>
+  🗑
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -462,10 +491,32 @@ function idxOf(id) {
   return 99;
 }
 
-/* ── Reset ── */
-function confirmReset() {
+/* ── Reset (long press 3s) ── */
+var pressTimer = null;
+var pressingReset = false;
+
+function resetStart(e) {
+  e.preventDefault();
+  if (pressingReset) return;
+  pressingReset = true;
+  var btn = document.getElementById('resetCorner');
+  btn.classList.add('pressing');
+  pressTimer = setTimeout(function() {
+    doReset();
+  }, 3000);
+}
+function resetEnd(e) {
+  if (!pressingReset) return;
+  pressingReset = false;
+  clearTimeout(pressTimer);
+  var btn = document.getElementById('resetCorner');
+  btn.classList.remove('pressing');
+}
+function doReset() {
+  pressingReset = false;
+  var btn = document.getElementById('resetCorner');
+  btn.classList.remove('pressing');
   if (!tiles.length){ showToast('目前沒有訂單'); return; }
-  if (!confirm('確定清除所有 '+tiles.length+' 份？')) return;
   tiles=[];
   save();
   var board=document.getElementById('board');
@@ -473,6 +524,7 @@ function confirmReset() {
   board.innerHTML=''; board.appendChild(empty);
   empty.style.display='flex';
   updateBtnCounts();
+  showToast('已清除所有訂單');
 }
 
 function showToast(msg) {
@@ -505,6 +557,14 @@ if (!Array.prototype.findIndex) {
     return -1;
   };
 }
+
+var rc = document.getElementById('resetCorner');
+rc.addEventListener('touchstart', resetStart, {passive: false});
+rc.addEventListener('touchend', resetEnd, false);
+rc.addEventListener('touchcancel', resetEnd, false);
+rc.addEventListener('mousedown', resetStart, false);
+rc.addEventListener('mouseup', resetEnd, false);
+rc.addEventListener('mouseleave', resetEnd, false);
 
 buildButtons();
 restore();
