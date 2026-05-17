@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="煮麵看板">
+<title>煮麵看板</title>
+<style>
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+* {
+  box-sizing: border-box; margin: 0; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+html { height: 100%; overflow: hidden; position: fixed; width: 100%; }
+body {
+  height: 100%; width: 100%;
+  display: -webkit-flex; display: flex;
+  -webkit-flex-direction: row; flex-direction: row;
+  background: #0a0a0a;
+  font-family: -apple-system, '蘋方-繁', 'PingFang TC', sans-serif;
+  color: #fff;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+}
+
+/* ══════════════════════════
+   LEFT PANEL — 點餐區
+══════════════════════════ */
+.left {
+  width: 260px;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+  background: #141414;
+  border-right: 2px solid #2a2a2a;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.left-header {
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid #2a2a2a;
+  background: #111;
+}
+.left-title {
+  font-size: 14px; font-weight: 900;
+  color: #888; letter-spacing: 3px;
+  margin-bottom: 4px;
+}
+.total-line {
+  font-size: 15px; color: #666;
+}
+.total-line b { color: #fff; font-size: 22px; font-weight: 900; }
+
+.order-btns {
+  -webkit-flex: 1; flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px 12px;
+  display: -webkit-flex; display: flex;
+  -webkit-flex-direction: column; flex-direction: column;
+  gap: 10px;
+}
+
+/* 點餐按鈕 — 大、好按 */
+.order-btn {
+  width: 100%;
+  min-height: 68px;
+  border-radius: 16px;
+  border: none;
+  display: -webkit-flex; display: flex;
+  -webkit-align-items: center; align-items: center;
+  -webkit-justify-content: space-between; justify-content: space-between;
+  padding: 0 18px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-appearance: none; appearance: none;
+  position: relative;
+  overflow: hidden;
+}
+.order-btn:active { opacity: 0.65; -webkit-transform: scale(0.97); transform: scale(0.97); }
+
+.btn-name { font-size: 22px; font-weight: 900; }
+.btn-count {
+  font-size: 18px; font-weight: 900;
+  background: rgba(0,0,0,0.2);
+  border-radius: 20px;
+  padding: 3px 12px;
+  min-width: 38px;
+  text-align: center;
+  display: none;
+}
+.btn-count.show { display: block; }
+
+/* divider */
+.left-divider {
+  height: 1px; background: #2a2a2a; margin: 0 12px;
+}
+
+.reset-btn {
+  margin: 12px;
+  min-height: 48px;
+  border-radius: 12px;
+  border: 2px solid #3a1818;
+  background: #1e0e0e;
+  color: #ff5555;
+  font-size: 16px; font-weight: 700;
+  cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+  touch-action: manipulation;
+}
+.reset-btn:active { opacity: 0.6; }
+
+/* ══════════════════════════
+   RIGHT PANEL — 看板
+══════════════════════════ */
+.right {
+  -webkit-flex: 1; flex: 1;
+  background: #0a0a0a;
+  display: -webkit-flex; display: flex;
+  -webkit-flex-direction: column; flex-direction: column;
+  overflow: hidden;
+}
+
+.right-header {
+  padding: 14px 20px 10px;
+  border-bottom: 2px solid #1e1e1e;
+  background: #111;
+  display: -webkit-flex; display: flex;
+  -webkit-align-items: center; align-items: center;
+  -webkit-justify-content: space-between; justify-content: space-between;
+  -webkit-flex-shrink: 0; flex-shrink: 0;
+}
+.right-title { font-size: 20px; font-weight: 900; color: #fff; }
+.pending-badge {
+  font-size: 15px; color: #888;
+}
+.pending-badge b { color: #fff; font-size: 26px; font-weight: 900; }
+
+.board {
+  -webkit-flex: 1; flex: 1;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  padding: 16px 16px 20px;
+}
+
+.board-empty {
+  height: 100%;
+  display: -webkit-flex; display: flex;
+  -webkit-flex-direction: column; flex-direction: column;
+  -webkit-align-items: center; align-items: center;
+  -webkit-justify-content: center; justify-content: center;
+  gap: 12px; opacity: 0.2; pointer-events: none;
+}
+.board-empty .ei { font-size: 56px; }
+.board-empty .et { font-size: 18px; font-weight: 700; color: #666; }
+
+/* section */
+.nsec { margin-bottom: 20px; }
+.nsec-hdr {
+  display: -webkit-flex; display: flex;
+  -webkit-align-items: center; align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.nsec-name { font-size: 16px; font-weight: 900; letter-spacing: 1px; }
+.nsec-cnt {
+  font-size: 13px; font-weight: 700; color: #666;
+  background: #1e1e1e; border-radius: 6px; padding: 2px 10px;
+}
+
+.tiles {
+  display: -webkit-flex; display: flex;
+  -webkit-flex-wrap: wrap; flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* ── Tile（右側大色塊）── */
+.tile {
+  width: 130px; height: 130px;
+  border-radius: 22px;
+  border: none;
+  display: -webkit-flex; display: flex;
+  -webkit-flex-direction: column; flex-direction: column;
+  -webkit-align-items: center; align-items: center;
+  -webkit-justify-content: center; justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  -webkit-animation: pop-in .2s cubic-bezier(.34,1.56,.64,1) both;
+  animation: pop-in .2s cubic-bezier(.34,1.56,.64,1) both;
+}
+.tile:active { opacity: 0.55; }
+
+@-webkit-keyframes pop-in {
+  from { opacity:0; -webkit-transform:scale(0.4); }
+  to   { opacity:1; -webkit-transform:scale(1); }
+}
+@keyframes pop-in {
+  from { opacity:0; transform:scale(0.4); }
+  to   { opacity:1; transform:scale(1); }
+}
+
+.tile.removing {
+  -webkit-animation: tile-out .15s ease-in forwards !important;
+  animation: tile-out .15s ease-in forwards !important;
+  pointer-events: none;
+}
+@-webkit-keyframes tile-out {
+  from { opacity:1; -webkit-transform:scale(1); }
+  to   { opacity:0; -webkit-transform:scale(0.2); }
+}
+@keyframes tile-out {
+  from { opacity:1; transform:scale(1); }
+  to   { opacity:0; transform:scale(0.2); }
+}
+
+.tile-name { font-size: 22px; font-weight: 900; }
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: calc(18px + var(--safe-bottom)); left: 50%;
+  -webkit-transform: translateX(-50%) translateY(14px);
+  transform: translateX(-50%) translateY(14px);
+  background: #111; border: 2px solid #444;
+  border-radius: 14px; padding: 12px 24px;
+  font-size: 16px; font-weight: 700; color: #fff;
+  z-index: 999; opacity: 0; pointer-events: none; white-space: nowrap;
+  -webkit-transition: opacity .2s, -webkit-transform .2s;
+  transition: opacity .2s, transform .2s;
+}
+.toast.show {
+  opacity: 1;
+  -webkit-transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- LEFT: 點餐區 -->
+<div class="left">
+  <div class="left-header">
+    <div class="left-title">點　餐</div>
+    <div class="total-line">待煮 <b id="totalCount">0</b> 份</div>
+  </div>
+  <div class="order-btns" id="orderBtns"></div>
+  <div class="left-divider"></div>
+  <button type="button" class="reset-btn" onclick="confirmReset()">全部清除</button>
+</div>
+
+<!-- RIGHT: 看板 -->
+<div class="right">
+  <div class="right-header">
+    <div class="right-title">🍜 煮麵看板</div>
+    <div class="pending-badge">待煮 <b id="pendingCount">0</b> 份</div>
+  </div>
+  <div class="board" id="board">
+    <div class="board-empty" id="boardEmpty">
+      <div class="ei">🫕</div>
+      <div class="et">左側點選麵種開始</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var NOODLES = [
+  { id:'oil',   name:'油麵',   bg:'#F5C518', text:'#1a1000' },
+  { id:'thick', name:'粗陽春', bg:'#F0F0F0', text:'#111111' },
+  { id:'thin',  name:'細陽春', bg:'#A8D8F0', text:'#0a2a40' },
+  { id:'bean',  name:'冬粉',   bg:'#7ED98A', text:'#082210' },
+  { id:'rice',  name:'米粉',   bg:'#C8A0E8', text:'#1a0030' },
+  { id:'meat',  name:'肉羹',   bg:'#E8503A', text:'#fff'    },
+  { id:'squid', name:'花枝',   bg:'#F9C8E0', text:'#3a0020' },
+  { id:'fish',  name:'魚酥',   bg:'#F4A44A', text:'#2a1000' },
+];
+
+var tiles = load();
+var seq = tiles.length ? Math.max.apply(null, tiles.map(function(t){ return t.s||0; })) : 0;
+
+/* ── Audio ── */
+var _ctx = null;
+function actx() {
+  if (!_ctx) _ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (_ctx.state === 'suspended') _ctx.resume();
+  return _ctx;
+}
+function beep(type) {
+  try {
+    var c = actx();
+    var pairs = type==='add' ? [[440,0],[660,0.1]] : [[660,0],[440,0.1]];
+    pairs.forEach(function(p){
+      var o=c.createOscillator(), g=c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.frequency.value=p[0];
+      var t=c.currentTime+p[1];
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(0.2,t+0.03);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
+      o.start(t); o.stop(t+0.22);
+    });
+  } catch(e){}
+}
+
+/* ── Storage ── */
+function load() {
+  try { return JSON.parse(localStorage.getItem('nm4')||'[]'); } catch(e){ return []; }
+}
+function save() {
+  try { localStorage.setItem('nm4', JSON.stringify(tiles)); } catch(e){}
+}
+function getNoodle(id) {
+  for (var i=0;i<NOODLES.length;i++) if(NOODLES[i].id===id) return NOODLES[i];
+  return {id:id, name:id, bg:'#888', text:'#000'};
+}
+
+/* ── Build left buttons ── */
+function buildButtons() {
+  var c = document.getElementById('orderBtns');
+  c.innerHTML = '';
+  NOODLES.forEach(function(n) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'order-btn';
+    btn.id = 'obtn-'+n.id;
+    btn.style.background = n.bg;
+    btn.innerHTML =
+      '<span class="btn-name" style="color:'+n.text+'">'+n.name+'</span>'+
+      '<span class="btn-count" id="bcnt-'+n.id+'" style="color:'+n.text+'">0</span>';
+    btn.onclick = (function(id){ return function(){ addTile(id); }; })(n.id);
+    c.appendChild(btn);
+  });
+}
+
+function updateBtnCounts() {
+  NOODLES.forEach(function(n){
+    var cnt = tiles.filter(function(t){ return t.n===n.id; }).length;
+    var el = document.getElementById('bcnt-'+n.id);
+    if (!el) return;
+    el.textContent = cnt;
+    if (cnt>0) el.classList.add('show'); else el.classList.remove('show');
+  });
+  var total = tiles.length;
+  document.getElementById('totalCount').textContent = total;
+  document.getElementById('pendingCount').textContent = total;
+}
+
+/* ── Add tile ── */
+function addTile(noodleId) {
+  actx();
+  seq++;
+  var t = { id: Date.now().toString(36)+(seq%999), s:seq, n:noodleId };
+  tiles.push(t);
+  save();
+  addTileToDOM(t);
+  updateBtnCounts();
+  beep('add');
+}
+
+function addTileToDOM(tile) {
+  var board = document.getElementById('board');
+  document.getElementById('boardEmpty').style.display = 'none';
+
+  var n = getNoodle(tile.n);
+  var secId = 'nsec-'+tile.n;
+  var sec = document.getElementById(secId);
+
+  if (!sec) {
+    sec = document.createElement('div');
+    sec.className = 'nsec';
+    sec.id = secId;
+    sec.innerHTML =
+      '<div class="nsec-hdr">'+
+        '<span class="nsec-name" style="color:'+n.bg+'">'+n.name+'</span>'+
+        '<span class="nsec-cnt" id="nsc-'+tile.n+'">0 份</span>'+
+      '</div>'+
+      '<div class="tiles" id="ntiles-'+tile.n+'"></div>';
+    var nIdx = idxOf(tile.n);
+    var secs = board.querySelectorAll('.nsec');
+    var before = null;
+    for (var i=0;i<secs.length;i++){
+      if (idxOf(secs[i].id.replace('nsec-','')) > nIdx){ before=secs[i]; break; }
+    }
+    if (before) board.insertBefore(sec, before);
+    else board.appendChild(sec);
+  }
+
+  var el = document.createElement('div');
+  el.className = 'tile';
+  el.id = 'tile-'+tile.id;
+  el.style.background = n.bg;
+  el.innerHTML = '<div class="tile-name" style="color:'+n.text+'">'+n.name+'</div>';
+  el.onclick = (function(id){ return function(){ removeTile(id); }; })(tile.id);
+  document.getElementById('ntiles-'+tile.n).appendChild(el);
+
+  updateSectionCount(tile.n);
+}
+
+/* ── Remove tile ── */
+function removeTile(id) {
+  var el = document.getElementById('tile-'+id);
+  if (!el) return;
+  beep('done');
+  el.classList.add('removing');
+  el.onclick = null;
+
+  var nId = null;
+  for (var i=0;i<tiles.length;i++) if(tiles[i].id===id){ nId=tiles[i].n; break; }
+
+  setTimeout(function(){
+    tiles = tiles.filter(function(t){ return t.id!==id; });
+    save();
+    if (el.parentNode) el.parentNode.removeChild(el);
+    if (nId) {
+      var rem = tiles.filter(function(t){ return t.n===nId; });
+      if (!rem.length) {
+        var s=document.getElementById('nsec-'+nId);
+        if (s&&s.parentNode) s.parentNode.removeChild(s);
+      } else {
+        updateSectionCount(nId);
+      }
+    }
+    if (!tiles.length) {
+      var board=document.getElementById('board');
+      var empty=document.getElementById('boardEmpty');
+      board.innerHTML=''; board.appendChild(empty);
+      empty.style.display='flex';
+    }
+    updateBtnCounts();
+  }, 160);
+}
+
+function updateSectionCount(nId) {
+  var c = tiles.filter(function(t){ return t.n===nId; }).length;
+  var el = document.getElementById('nsc-'+nId);
+  if (el) el.textContent = c+' 份';
+}
+
+function idxOf(id) {
+  for (var i=0;i<NOODLES.length;i++) if(NOODLES[i].id===id) return i;
+  return 99;
+}
+
+/* ── Reset ── */
+function confirmReset() {
+  if (!tiles.length){ showToast('目前沒有訂單'); return; }
+  if (!confirm('確定清除所有 '+tiles.length+' 份？')) return;
+  tiles=[];
+  save();
+  var board=document.getElementById('board');
+  var empty=document.getElementById('boardEmpty');
+  board.innerHTML=''; board.appendChild(empty);
+  empty.style.display='flex';
+  updateBtnCounts();
+}
+
+function showToast(msg) {
+  var el=document.getElementById('toast');
+  el.textContent=msg;
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); },2000);
+}
+
+/* ── Restore ── */
+function restore() {
+  if (!tiles.length) return;
+  tiles.forEach(function(t){ addTileToDOM(t); });
+  updateBtnCounts();
+}
+
+/* ── Wake Lock ── */
+function wakeLock(){
+  if ('wakeLock' in navigator)
+    navigator.wakeLock.request('screen').catch(function(){});
+}
+document.addEventListener('visibilitychange',function(){
+  if (document.visibilityState==='visible') wakeLock();
+});
+
+/* ── Array.findIndex polyfill ── */
+if (!Array.prototype.findIndex) {
+  Array.prototype.findIndex = function(fn) {
+    for (var i=0;i<this.length;i++) if(fn(this[i])) return i;
+    return -1;
+  };
+}
+
+buildButtons();
+restore();
+wakeLock();
+</script>
+</body>
+</html>
