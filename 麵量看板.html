@@ -196,20 +196,6 @@ body {
 .board-empty .ei { font-size: 56px; }
 .board-empty .et { font-size: 18px; font-weight: 700; color: #666; }
 
-/* section */
-.nsec { margin-bottom: 20px; }
-.nsec-hdr {
-  display: -webkit-flex; display: flex;
-  -webkit-align-items: center; align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-.nsec-name { font-size: 16px; font-weight: 900; letter-spacing: 1px; }
-.nsec-cnt {
-  font-size: 13px; font-weight: 700; color: #666;
-  background: #1e1e1e; border-radius: 6px; padding: 2px 10px;
-}
-
 .tiles {
   display: -webkit-flex; display: flex;
   -webkit-flex-wrap: wrap; flex-wrap: wrap;
@@ -411,39 +397,23 @@ function addTileToDOM(tile) {
   var board = document.getElementById('board');
   document.getElementById('boardEmpty').style.display = 'none';
 
-  var n = getNoodle(tile.n);
-  var secId = 'nsec-'+tile.n;
-  var sec = document.getElementById(secId);
-
-  if (!sec) {
-    sec = document.createElement('div');
-    sec.className = 'nsec';
-    sec.id = secId;
-    sec.innerHTML =
-      '<div class="nsec-hdr">'+
-        '<span class="nsec-name" style="color:'+n.bg+'">'+n.name+'</span>'+
-        '<span class="nsec-cnt" id="nsc-'+tile.n+'">0 份</span>'+
-      '</div>'+
-      '<div class="tiles" id="ntiles-'+tile.n+'"></div>';
-    var nIdx = idxOf(tile.n);
-    var secs = board.querySelectorAll('.nsec');
-    var before = null;
-    for (var i=0;i<secs.length;i++){
-      if (idxOf(secs[i].id.replace('nsec-','')) > nIdx){ before=secs[i]; break; }
-    }
-    if (before) board.insertBefore(sec, before);
-    else board.appendChild(sec);
+  // ensure flat tiles container exists
+  var grid = document.getElementById('flat-grid');
+  if (!grid) {
+    grid = document.createElement('div');
+    grid.className = 'tiles';
+    grid.id = 'flat-grid';
+    board.appendChild(grid);
   }
 
+  var n = getNoodle(tile.n);
   var el = document.createElement('div');
   el.className = 'tile';
   el.id = 'tile-'+tile.id;
   el.style.background = n.bg;
   el.innerHTML = '<div class="tile-name" style="color:'+n.text+'">'+n.name+'</div>';
   el.onclick = (function(id){ return function(){ removeTile(id); }; })(tile.id);
-  document.getElementById('ntiles-'+tile.n).appendChild(el);
-
-  updateSectionCount(tile.n);
+  grid.appendChild(el);
 }
 
 /* ── Remove tile ── */
@@ -461,15 +431,6 @@ function removeTile(id) {
     tiles = tiles.filter(function(t){ return t.id!==id; });
     save();
     if (el.parentNode) el.parentNode.removeChild(el);
-    if (nId) {
-      var rem = tiles.filter(function(t){ return t.n===nId; });
-      if (!rem.length) {
-        var s=document.getElementById('nsec-'+nId);
-        if (s&&s.parentNode) s.parentNode.removeChild(s);
-      } else {
-        updateSectionCount(nId);
-      }
-    }
     if (!tiles.length) {
       var board=document.getElementById('board');
       var empty=document.getElementById('boardEmpty');
@@ -480,16 +441,7 @@ function removeTile(id) {
   }, 160);
 }
 
-function updateSectionCount(nId) {
-  var c = tiles.filter(function(t){ return t.n===nId; }).length;
-  var el = document.getElementById('nsc-'+nId);
-  if (el) el.textContent = c+' 份';
-}
 
-function idxOf(id) {
-  for (var i=0;i<NOODLES.length;i++) if(NOODLES[i].id===id) return i;
-  return 99;
-}
 
 /* ── Reset (long press 3s) ── */
 var pressTimer = null;
