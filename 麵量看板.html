@@ -87,14 +87,14 @@ body {
   padding: 0 12px;
   -webkit-justify-content: center; justify-content: center;
   cursor: pointer;
-  touch-action: manipulation;
+  touch-action: none;
   -webkit-user-select: none; user-select: none;
   -webkit-touch-callout: none;
   -webkit-appearance: none; appearance: none;
   position: relative;
   overflow: hidden;
 }
-.order-btn:active { opacity: 0.65; -webkit-transform: scale(0.97); transform: scale(0.97); }
+.order-btn:active { opacity: 0.65; }
 
 .btn-name { font-size: 26px; font-weight: 900; text-align: center; }
 .btn-count {
@@ -310,6 +310,7 @@ var NOODLES = [
   { id:'meat',  name:'肉羹',   bg:'#E8503A', text:'#fff'    },
   { id:'squid', name:'花枝',   bg:'#F9C8E0', text:'#3a0020' },
   { id:'fish',  name:'魚酥',   bg:'#F4A44A', text:'#2a1000' },
+  { id:'squid2',name:'魷魚',   bg:'#7EC8E8', text:'#002a3a' },
 ];
 
 var tiles = load();
@@ -364,7 +365,41 @@ function buildButtons() {
     btn.innerHTML =
       '<span class="btn-name" style="color:'+n.text+'">'+n.name+'</span>'+
       '<span class="btn-count" id="bcnt-'+n.id+'" style="color:'+n.text+'">0</span>';
-    btn.onclick = (function(id){ return function(){ addTile(id); }; })(n.id);
+    /* 長按計時器 */
+    (function(id, btnEl){
+      var t = null;
+      var fired = false;
+
+      function onStart(e) {
+        e.preventDefault();
+        fired = false;
+        btnEl.style.opacity = '0.75';
+        t = setTimeout(function(){
+          fired = true;
+          btnEl.style.opacity = '1';
+          /* 長按震動提示 */
+          if (navigator.vibrate) navigator.vibrate(40);
+          addTile(id, true);
+        }, 600);
+      }
+      function onEnd(e) {
+        clearTimeout(t);
+        btnEl.style.opacity = '1';
+        if (!fired) addTile(id, false);
+        fired = false;
+      }
+      function onCancel() {
+        clearTimeout(t);
+        btnEl.style.opacity = '1';
+        fired = false;
+      }
+      btnEl.addEventListener('touchstart', onStart, {passive:false});
+      btnEl.addEventListener('touchend',   onEnd,   false);
+      btnEl.addEventListener('touchcancel',onCancel,false);
+      btnEl.addEventListener('mousedown',  onStart, false);
+      btnEl.addEventListener('mouseup',    onEnd,   false);
+      btnEl.addEventListener('mouseleave', onCancel,false);
+    })(n.id, btn);
     c.appendChild(btn);
   });
 }
@@ -383,10 +418,10 @@ function updateBtnCounts() {
 }
 
 /* ── Add tile ── */
-function addTile(noodleId) {
+function addTile(noodleId, soup) {
   actx();
   seq++;
-  var t = { id: Date.now().toString(36)+(seq%999), s:seq, n:noodleId };
+  var t = { id: Date.now().toString(36)+(seq%999), s:seq, n:noodleId, soup:!!soup };
   tiles.push(t);
   save();
   addTileToDOM(t);
@@ -412,7 +447,12 @@ function addTileToDOM(tile) {
   el.className = 'tile';
   el.id = 'tile-'+tile.id;
   el.style.background = n.bg;
-  el.innerHTML = '<div class="tile-name" style="color:'+n.text+'">'+n.name+'</div>';
+  if (tile.soup) {
+    el.style.outline = '4px solid rgba(0,0,0,0.5)';
+    el.style.outlineOffset = '-4px';
+  }
+  var label = tile.soup ? n.name+'(湯)' : n.name;
+  el.innerHTML = '<div class="tile-name" style="color:'+n.text+'">' + label + '</div>';
   el.onclick = (function(id){ return function(){ removeTile(id); }; })(tile.id);
   grid.appendChild(el);
 }
