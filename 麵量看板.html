@@ -28,9 +28,9 @@ body {
   padding-left: var(--safe-left); padding-right: var(--safe-right);
 }
 
-/* ══ LEFT：麵種按鈕 ══ */
+/* ══ LEFT：麵種 ══ */
 .left {
-  width: 200px; -webkit-flex-shrink: 0; flex-shrink: 0;
+  width: 140px; -webkit-flex-shrink: 0; flex-shrink: 0;
   background: #141414; border-right: 2px solid #2a2a2a;
   display: -webkit-flex; display: flex;
   -webkit-flex-direction: column; flex-direction: column; overflow: hidden;
@@ -38,163 +38,198 @@ body {
 .order-btns {
   -webkit-flex: 1; flex: 1; overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 10px 10px;
+  padding: 8px 8px;
   display: -webkit-flex; display: flex;
-  -webkit-flex-direction: column; flex-direction: column; gap: 8px;
+  -webkit-flex-direction: column; flex-direction: column; gap: 6px;
 }
 .order-btn {
-  width: 100%; min-height: 64px; border-radius: 14px; border: none;
+  width: 100%; height: 50px;
+  border-radius: 10px; border: none;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: center; justify-content: center;
-  cursor: pointer; touch-action: none;
+  cursor: pointer; touch-action: manipulation;
   -webkit-user-select: none; user-select: none;
   -webkit-touch-callout: none; -webkit-appearance: none; appearance: none;
-  position: relative;
-  /* 選中外框 */
-  outline: 4px solid transparent;
-  outline-offset: 2px;
-  -webkit-transition: outline-color .15s; transition: outline-color .15s;
+  outline: 3px solid transparent; outline-offset: 2px;
+  -webkit-transition: outline-color .1s; transition: outline-color .1s;
 }
-.order-btn.selected {
-  outline-color: #fff;
-}
-.order-btn:active { opacity: 0.65; }
-.btn-name { font-size: 26px; font-weight: 900; text-align: center; }
+.order-btn.selected { outline-color: #fff; }
+.order-btn:active { opacity: 0.6; }
+.btn-name { font-size: 22px; font-weight: 900; }
 .btn-count {
-  font-size: 16px; font-weight: 900;
-  background: rgba(0,0,0,0.2); border-radius: 20px;
-  padding: 2px 10px; min-width: 32px; text-align: center;
-  display: none; margin-left: 6px;
+  font-size: 13px; font-weight: 900;
+  background: rgba(0,0,0,0.25); border-radius: 10px;
+  padding: 1px 6px; margin-left: 4px; display: none;
 }
 .btn-count.show { display: block; }
 
-/* ══ RIGHT：看板 ══ */
+/* ══ RIGHT ══ */
 .right {
   -webkit-flex: 1; flex: 1; background: #0a0a0a;
   display: -webkit-flex; display: flex;
   -webkit-flex-direction: column; flex-direction: column; overflow: hidden;
 }
 
-/* 右側 header */
+/* header */
 .right-header {
-  padding: 10px 16px 8px; border-bottom: 2px solid #1e1e1e; background: #111;
+  padding: 8px 14px; border-bottom: 2px solid #1e1e1e; background: #111;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: space-between; justify-content: space-between;
   -webkit-flex-shrink: 0; flex-shrink: 0;
-}
-.right-title { font-size: 18px; font-weight: 900; }
-.pending-badge { font-size: 14px; color: #888; }
-.pending-badge b { color: #fff; font-size: 22px; font-weight: 900; }
-
-/* ══ 選項列（乾湯大小 + 內外）══ */
-.option-bar {
-  -webkit-flex-shrink: 0; flex-shrink: 0;
-  padding: 10px 12px;
-  background: #161616;
-  border-bottom: 2px solid #2a2a2a;
-  display: -webkit-flex; display: flex;
-  gap: 10px;
-}
-.opt-group {
-  display: -webkit-flex; display: flex;
   gap: 8px;
 }
+.right-title { font-size: 16px; font-weight: 900; white-space: nowrap; }
+.pending-badge { font-size: 13px; color: #888; white-space: nowrap; }
+.pending-badge b { color: #fff; font-size: 20px; font-weight: 900; }
+
+/* ══ 選項列 ══ */
+.option-bar {
+  -webkit-flex-shrink: 0; flex-shrink: 0;
+  padding: 8px 10px;
+  background: #161616; border-bottom: 2px solid #2a2a2a;
+  display: -webkit-flex; display: flex;
+  -webkit-align-items: center; align-items: center;
+  gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.opt-group {
+  display: -webkit-flex; display: flex; gap: 5px;
+  -webkit-flex-shrink: 0; flex-shrink: 0;
+}
 .opt-divider {
-  width: 2px; background: #333; border-radius: 2px; margin: 0 4px;
+  width: 1px; min-height: 40px; background: #333; margin: 0 2px;
+  -webkit-flex-shrink: 0; flex-shrink: 0;
 }
 .opt-btn {
-  min-width: 72px; min-height: 64px;
-  border-radius: 14px;
-  border: 3px solid #333;
-  background: #222;
-  color: #888;
-  font-size: 28px; font-weight: 900;
+  width: 52px; height: 52px; border-radius: 12px;
+  border: 2px solid #333; background: #222; color: #666;
+  font-size: 24px; font-weight: 900;
   cursor: pointer; touch-action: manipulation;
   -webkit-user-select: none; user-select: none;
-  -webkit-touch-callout: none; -webkit-appearance: none; appearance: none;
+  -webkit-appearance: none; appearance: none;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: center; justify-content: center;
-  -webkit-transition: all .15s; transition: all .15s;
+  -webkit-flex-shrink: 0; flex-shrink: 0;
+  -webkit-transition: all .1s; transition: all .1s;
 }
-.opt-btn:active { opacity: 0.65; }
-/* 選中狀態 */
+.opt-btn:active { opacity: 0.6; }
 .opt-btn.sel-soup  { border-color: #4a90d0; background: #0a2040; color: #7ec8f8; }
-.opt-btn.sel-dry   { border-color: #888;    background: #2a2a2a; color: #fff;    }
+.opt-btn.sel-dry   { border-color: #aaa;    background: #2a2a2a; color: #fff; }
 .opt-btn.sel-big   { border-color: #d0a040; background: #2a1a00; color: #ffd060; }
-.opt-btn.sel-small { border-color: #888;    background: #2a2a2a; color: #fff;    }
+.opt-btn.sel-small { border-color: #aaa;    background: #2a2a2a; color: #fff; }
 .opt-btn.sel-out   { border-color: #d06020; background: #2a1000; color: #f0a040; }
 .opt-btn.sel-in    { border-color: #40a060; background: #0a2010; color: #60d080; }
+.opt-btn.sel-qty   { border-color: #c060e0; background: #1a0a28; color: #e090ff; }
 
-/* 提示：尚未選麵種 */
-.no-noodle-hint {
-  font-size: 13px; color: #555;
-  display: -webkit-flex; display: flex;
-  -webkit-align-items: center; align-items: center;
-  margin-left: 8px;
-}
+.hint-text { font-size: 13px; color: #444; white-space: nowrap; margin-left: 4px; }
 
-/* ══ 色塊看板 ══ */
+/* ══ 清單看板 ══ */
 .board {
-  -webkit-flex: 1; flex: 1; overflow-y: scroll;
-  -webkit-overflow-scrolling: touch; overflow-x: hidden;
-  padding: 14px 14px 20px;
+  -webkit-flex: 1; flex: 1;
+  overflow-y: scroll; -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  padding: 8px 10px 20px;
 }
 .board-empty {
   height: 100%; display: -webkit-flex; display: flex;
   -webkit-flex-direction: column; flex-direction: column;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: center; justify-content: center;
-  gap: 12px; opacity: 0.2; pointer-events: none;
+  gap: 10px; opacity: 0.2; pointer-events: none;
 }
-.board-empty .ei { font-size: 56px; }
-.board-empty .et { font-size: 18px; font-weight: 700; color: #666; }
+.board-empty .ei { font-size: 52px; }
+.board-empty .et { font-size: 16px; font-weight: 700; color: #666; }
 
-.tiles {
+/* ── 訂單列 ── */
+.order-row {
   display: -webkit-flex; display: flex;
-  -webkit-flex-wrap: wrap; flex-wrap: wrap; gap: 14px;
-}
-
-/* ══ 色塊 ══ */
-.tile {
-  width: 130px; height: 140px; border-radius: 22px; border: none;
-  display: -webkit-flex; display: flex;
-  -webkit-flex-direction: column; flex-direction: column;
   -webkit-align-items: center; align-items: center;
-  -webkit-justify-content: center; justify-content: center;
-  gap: 6px; cursor: pointer;
+  gap: 0;
+  margin-bottom: 8px;
+  border-radius: 14px;
+  overflow: hidden;
+  min-height: 64px;
+  cursor: pointer;
+  touch-action: manipulation;
   -webkit-user-select: none; user-select: none;
-  -webkit-touch-callout: none; touch-action: manipulation;
-  -webkit-animation: pop-in .2s cubic-bezier(.34,1.56,.64,1) both;
-  animation: pop-in .2s cubic-bezier(.34,1.56,.64,1) both;
+  -webkit-touch-callout: none;
+  -webkit-animation: row-in .2s cubic-bezier(.34,1.56,.64,1) both;
+  animation: row-in .2s cubic-bezier(.34,1.56,.64,1) both;
 }
-.tile:active { opacity: 0.55; }
-@-webkit-keyframes pop-in {
-  from { opacity:0; -webkit-transform:scale(0.4); } to { opacity:1; -webkit-transform:scale(1); }
+.order-row:active { opacity: 0.5; }
+@-webkit-keyframes row-in {
+  from { opacity:0; -webkit-transform:translateX(-20px); }
+  to   { opacity:1; -webkit-transform:translateX(0); }
 }
-@keyframes pop-in {
-  from { opacity:0; transform:scale(0.4); } to { opacity:1; transform:scale(1); }
+@keyframes row-in {
+  from { opacity:0; transform:translateX(-20px); }
+  to   { opacity:1; transform:translateX(0); }
 }
-.tile.removing {
-  -webkit-animation: tile-out .15s ease-in forwards !important;
-  animation: tile-out .15s ease-in forwards !important; pointer-events: none;
+.order-row.removing {
+  -webkit-animation: row-out .18s ease-in forwards !important;
+  animation: row-out .18s ease-in forwards !important;
+  pointer-events: none;
 }
-@-webkit-keyframes tile-out {
-  from { opacity:1; -webkit-transform:scale(1); } to { opacity:0; -webkit-transform:scale(0.2); }
+@-webkit-keyframes row-out {
+  from { opacity:1; -webkit-transform:scaleY(1); max-height:200px; margin-bottom:8px; }
+  to   { opacity:0; -webkit-transform:scaleY(0); max-height:0; margin-bottom:0; }
 }
-@keyframes tile-out {
-  from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(0.2); }
+@keyframes row-out {
+  from { opacity:1; transform:scaleY(1); max-height:200px; margin-bottom:8px; }
+  to   { opacity:0; transform:scaleY(0); max-height:0; margin-bottom:0; }
 }
-.tile-name { font-size: 24px; font-weight: 900; }
-.tile-sub  { font-size: 20px; font-weight: 900; opacity: 0.88; }
 
-/* ══ Reset corner ══ */
+/* 左側色條（麵種顏色） */
+.row-color-bar {
+  width: 12px; min-height: 64px;
+  -webkit-align-self: stretch; align-self: stretch;
+  -webkit-flex-shrink: 0; flex-shrink: 0;
+}
+
+/* 主內容 */
+.row-content {
+  -webkit-flex: 1; flex: 1;
+  background: #1c1c1c;
+  padding: 0 16px;
+  min-height: 64px;
+  display: -webkit-flex; display: flex;
+  -webkit-align-items: center; align-items: center;
+  gap: 14px;
+}
+
+/* 麵種名 */
+.row-name {
+  font-size: 26px; font-weight: 900;
+  white-space: nowrap;
+  min-width: 72px;
+}
+
+/* 屬性標籤列 */
+.row-tags {
+  display: -webkit-flex; display: flex;
+  gap: 8px; -webkit-flex-wrap: wrap; flex-wrap: wrap;
+  -webkit-flex: 1; flex: 1;
+}
+.row-tag {
+  font-size: 20px; font-weight: 900;
+  padding: 4px 12px; border-radius: 8px;
+  white-space: nowrap;
+}
+.tag-soup    { background: #0a2040; color: #7ec8f8; }
+.tag-dry     { background: #222;    color: #ccc; }
+.tag-big     { background: #2a1a00; color: #ffd060; }
+.tag-small   { background: #222;    color: #ccc; }
+.tag-out     { background: #2a1000; color: #f0a040; }
+.tag-in      { background: #0a2010; color: #60d080; }
+.tag-qty     { background: #1a0a28; color: #e090ff; min-width: 48px; text-align: center; }
+
+/* ══ Reset ══ */
 .reset-corner {
   position: fixed; bottom: calc(16px + var(--safe-bottom)); right: calc(16px + var(--safe-right));
-  width: 56px; height: 56px; border-radius: 50%;
-  border: 2px solid #2a2a2a; background: #181818; color: #444; font-size: 20px;
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 2px solid #2a2a2a; background: #181818; color: #444; font-size: 18px;
   cursor: pointer;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
@@ -209,7 +244,7 @@ body {
   -webkit-transform: rotate(-90deg); transform: rotate(-90deg); pointer-events: none; }
 .reset-corner circle {
   fill: none; stroke: #ff5555; stroke-width: 3;
-  stroke-dasharray: 163; stroke-dashoffset: 163; stroke-linecap: round;
+  stroke-dasharray: 157; stroke-dashoffset: 157; stroke-linecap: round;
   -webkit-transition: none; transition: none;
 }
 .reset-corner.pressing circle {
@@ -231,7 +266,7 @@ body {
 </head>
 <body>
 
-<!-- LEFT: 麵種 -->
+<!-- LEFT -->
 <div class="left">
   <div class="order-btns" id="orderBtns"></div>
 </div>
@@ -245,37 +280,36 @@ body {
 
   <!-- 選項列 -->
   <div class="option-bar">
-    <!-- 乾 / 湯 -->
     <div class="opt-group">
-      <button type="button" class="opt-btn" id="opt-dry"  onclick="selectOpt('soup',false)">乾</button>
-      <button type="button" class="opt-btn" id="opt-soup" onclick="selectOpt('soup',true)">湯</button>
+      <button type="button" class="opt-btn" id="opt-dry"   onclick="selectOpt('soup',false)">乾</button>
+      <button type="button" class="opt-btn" id="opt-soup"  onclick="selectOpt('soup',true)">湯</button>
     </div>
     <div class="opt-divider"></div>
-    <!-- 小 / 大 -->
     <div class="opt-group">
       <button type="button" class="opt-btn" id="opt-small" onclick="selectOpt('big',false)">小</button>
       <button type="button" class="opt-btn" id="opt-big"   onclick="selectOpt('big',true)">大</button>
     </div>
     <div class="opt-divider"></div>
-    <!-- 內 / 外 -->
     <div class="opt-group">
-      <button type="button" class="opt-btn" id="opt-in"  onclick="selectOpt('takeout',false)">內</button>
-      <button type="button" class="opt-btn" id="opt-out" onclick="selectOpt('takeout',true)">外</button>
+      <button type="button" class="opt-btn" id="opt-in"    onclick="selectOpt('takeout',false)">內</button>
+      <button type="button" class="opt-btn" id="opt-out"   onclick="selectOpt('takeout',true)">外</button>
     </div>
-    <div class="no-noodle-hint" id="hintText">← 先選麵種</div>
+    <div class="opt-divider"></div>
+    <div class="opt-group" id="qtyBtns"></div>
+
   </div>
 
-  <!-- 色塊看板 -->
+  <!-- 看板 -->
   <div class="board" id="board">
     <div class="board-empty" id="boardEmpty">
       <div class="ei">🫕</div>
-      <div class="et">左側選麵種，上方選乾湯大小</div>
+      <div class="et">左側選麵種開始</div>
     </div>
   </div>
 </div>
 
 <div class="reset-corner" id="resetCorner">
-  <svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26"/></svg>
+  <svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/></svg>
   🗑
 </div>
 <div class="toast" id="toast"></div>
@@ -293,243 +327,221 @@ var NOODLES = [
   { id:'squid2',name:'魷魚',   bg:'#7EC8E8', text:'#002a3a' },
 ];
 
-/* 當前選擇狀態 */
-var state = {
-  noodle:  null,   // 選中的麵種 id
-  soup:    false,
-  big:     false,
-  takeout: false,
-};
-
+var state = { noodle:null, soup:false, big:false, takeout:false, qty:1 };
 var tiles = load();
 var seq = tiles.length ? Math.max.apply(null, tiles.map(function(t){ return t.s||0; })) : 0;
 
 /* ── Audio ── */
-var _ctx = null;
-function actx() {
-  if (!_ctx) _ctx = new (window.AudioContext || window.webkitAudioContext)();
-  if (_ctx.state === 'suspended') _ctx.resume();
+var _ctx=null;
+function actx(){
+  if(!_ctx) _ctx=new(window.AudioContext||window.webkitAudioContext)();
+  if(_ctx.state==='suspended') _ctx.resume();
   return _ctx;
 }
-function beep(type) {
-  try {
-    var c = actx();
-    var pairs = type==='add' ? [[440,0],[660,0.1]] : [[660,0],[440,0.1]];
+function beep(type){
+  try{
+    var c=actx();
+    var pairs=type==='add'?[[440,0],[660,0.1]]:[[660,0],[440,0.1]];
     pairs.forEach(function(p){
-      var o=c.createOscillator(), g=c.createGain();
-      o.connect(g); g.connect(c.destination);
+      var o=c.createOscillator(),g=c.createGain();
+      o.connect(g);g.connect(c.destination);
       o.frequency.value=p[0];
       var t=c.currentTime+p[1];
       g.gain.setValueAtTime(0,t);
       g.gain.linearRampToValueAtTime(0.2,t+0.03);
       g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
-      o.start(t); o.stop(t+0.22);
+      o.start(t);o.stop(t+0.22);
     });
-  } catch(e){}
+  }catch(e){}
 }
 
 /* ── Storage ── */
-function load() {
-  try { return JSON.parse(localStorage.getItem('nm6')||'[]'); } catch(e){ return []; }
-}
-function save() {
-  try { localStorage.setItem('nm6', JSON.stringify(tiles)); } catch(e){}
-}
-function getNoodle(id) {
-  for (var i=0;i<NOODLES.length;i++) if(NOODLES[i].id===id) return NOODLES[i];
-  return {id:id, name:id, bg:'#888', text:'#000'};
+function load(){ try{return JSON.parse(localStorage.getItem('nm7')||'[]');}catch(e){return[];} }
+function save(){ try{localStorage.setItem('nm7',JSON.stringify(tiles));}catch(e){} }
+function getNoodle(id){
+  for(var i=0;i<NOODLES.length;i++) if(NOODLES[i].id===id) return NOODLES[i];
+  return{id:id,name:id,bg:'#888',text:'#000'};
 }
 
-/* ── 選項按鈕高亮 ── */
-function updateOptUI() {
-  /* 乾/湯 */
-  document.getElementById('opt-dry').className  = 'opt-btn' + (!state.soup ? ' sel-dry'  : '');
-  document.getElementById('opt-soup').className = 'opt-btn' + ( state.soup ? ' sel-soup' : '');
-  /* 小/大 */
-  document.getElementById('opt-small').className = 'opt-btn' + (!state.big ? ' sel-small' : '');
-  document.getElementById('opt-big').className   = 'opt-btn' + ( state.big ? ' sel-big'   : '');
-  /* 內/外 */
-  document.getElementById('opt-in').className  = 'opt-btn' + (!state.takeout ? ' sel-in'  : '');
-  document.getElementById('opt-out').className = 'opt-btn' + ( state.takeout ? ' sel-out' : '');
-
-  /* 提示文字 */
-  document.getElementById('hintText').textContent = state.noodle ? '' : '← 先選麵種';
+/* ── Build qty buttons ── */
+function buildQtyButtons(){
+  var c=document.getElementById('qtyBtns');
+  c.innerHTML='';
+  for(var i=1;i<=5;i++){
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.className='opt-btn';
+    btn.id='opt-qty-'+i;
+    btn.textContent=i;
+    btn.onclick=(function(q){return function(){selectOpt('qty',q);};})(i);
+    c.appendChild(btn);
+  }
 }
 
-function selectOpt(key, val) {
+/* ── Update option UI ── */
+function updateOptUI(){
+  document.getElementById('opt-dry').className   ='opt-btn'+(!state.soup?'   sel-dry':'');
+  document.getElementById('opt-soup').className  ='opt-btn'+(state.soup?'  sel-soup':'');
+  document.getElementById('opt-small').className ='opt-btn'+(!state.big?'  sel-small':'');
+  document.getElementById('opt-big').className   ='opt-btn'+(state.big?'   sel-big':'');
+  document.getElementById('opt-in').className    ='opt-btn'+(!state.takeout?' sel-in':'');
+  document.getElementById('opt-out').className   ='opt-btn'+(state.takeout?' sel-out':'');
+  for(var i=1;i<=5;i++){
+    var el=document.getElementById('opt-qty-'+i);
+    if(el) el.className='opt-btn'+(state.qty===i?' sel-qty':'');
+  }
+
+}
+
+function selectOpt(key,val){
   actx();
-  state[key] = val;
+  state[key]=val;
   updateOptUI();
-  tryAddTile();
 }
 
-/* ── 左側麵種選擇 ── */
-function selectNoodle(id) {
+/* ── 選麵種 → 直接加入 ── */
+function selectNoodle(id){
   actx();
-  state.noodle = id;
-  /* 高亮選中按鈕 */
-  var btns = document.querySelectorAll('.order-btn');
-  for (var i=0;i<btns.length;i++) btns[i].classList.remove('selected');
-  var el = document.getElementById('obtn-'+id);
-  if (el) el.classList.add('selected');
-  updateOptUI();
-  tryAddTile();
-}
-
-/* ── 當麵種和選項都有了 → 自動加入色塊 ── */
-function tryAddTile() {
-  if (!state.noodle) return;
-  /* 只要有麵種就加，選項有預設值（乾/小/內）*/
   seq++;
-  var t = {
-    id: Date.now().toString(36)+(seq%999),
-    s: seq,
-    n: state.noodle,
-    soup:    state.soup,
-    big:     state.big,
-    takeout: state.takeout,
+  var t={
+    id:Date.now().toString(36)+(seq%999),
+    s:seq, n:id,
+    soup:state.soup, big:state.big,
+    takeout:state.takeout, qty:state.qty
   };
   tiles.push(t);
   save();
-  addTileToDOM(t);
+  addRowToDOM(t);
   updateBtnCounts();
   beep('add');
 
-  /* 加完清掉麵種選擇，等下一次點麵種 */
-  state.noodle = null;
-  var btns = document.querySelectorAll('.order-btn');
-  for (var i=0;i<btns.length;i++) btns[i].classList.remove('selected');
-  updateOptUI();
+  /* 短暫高亮按鈕 */
+  var btn=document.getElementById('obtn-'+id);
+  if(btn){ btn.classList.add('selected'); setTimeout(function(){btn.classList.remove('selected');},300); }
 }
 
 /* ── Build left buttons ── */
-function buildButtons() {
-  var c = document.getElementById('orderBtns');
-  c.innerHTML = '';
-  NOODLES.forEach(function(n) {
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'order-btn';
-    btn.id = 'obtn-'+n.id;
-    btn.style.background = n.bg;
-    btn.innerHTML =
-      '<span class="btn-name" style="color:'+n.text+'">'+n.name+'</span>'+
+function buildButtons(){
+  var c=document.getElementById('orderBtns');
+  c.innerHTML='';
+  NOODLES.forEach(function(n){
+    var btn=document.createElement('button');
+    btn.type='button'; btn.className='order-btn'; btn.id='obtn-'+n.id;
+    btn.style.background=n.bg;
+    btn.innerHTML='<span class="btn-name" style="color:'+n.text+'">'+n.name+'</span>'+
       '<span class="btn-count" id="bcnt-'+n.id+'" style="color:'+n.text+'">0</span>';
-    btn.onclick = (function(id){ return function(){ selectNoodle(id); }; })(n.id);
+    btn.onclick=(function(id){return function(){selectNoodle(id);};})(n.id);
     c.appendChild(btn);
   });
 }
 
-function updateBtnCounts() {
+function updateBtnCounts(){
   NOODLES.forEach(function(n){
-    var cnt = tiles.filter(function(t){ return t.n===n.id; }).length;
-    var el = document.getElementById('bcnt-'+n.id);
-    if (!el) return;
-    el.textContent = cnt;
-    if (cnt>0) el.classList.add('show'); else el.classList.remove('show');
+    var cnt=tiles.filter(function(t){return t.n===n.id;}).length;
+    var el=document.getElementById('bcnt-'+n.id);
+    if(!el) return;
+    el.textContent=cnt;
+    if(cnt>0) el.classList.add('show'); else el.classList.remove('show');
   });
-  document.getElementById('pendingCount').textContent = tiles.length;
+  document.getElementById('pendingCount').textContent=tiles.length;
 }
 
-/* ── Add tile to DOM ── */
-function addTileToDOM(tile) {
-  var board = document.getElementById('board');
-  document.getElementById('boardEmpty').style.display = 'none';
+/* ── Add row to DOM ── */
+function addRowToDOM(tile){
+  var board=document.getElementById('board');
+  document.getElementById('boardEmpty').style.display='none';
 
-  var grid = document.getElementById('flat-grid');
-  if (!grid) {
-    grid = document.createElement('div');
-    grid.className = 'tiles';
-    grid.id = 'flat-grid';
-    board.appendChild(grid);
-  }
+  var n=getNoodle(tile.n);
+  var row=document.createElement('div');
+  row.className='order-row';
+  row.id='row-'+tile.id;
 
-  var n = getNoodle(tile.n);
-  var el = document.createElement('div');
-  el.className = 'tile';
-  el.id = 'tile-'+tile.id;
-  el.style.background = n.bg;
+  var bar=document.createElement('div');
+  bar.className='row-color-bar';
+  bar.style.background=n.bg;
 
-  if (tile.takeout) {
-    el.style.outline = '4px dashed rgba(0,0,0,0.4)';
-    el.style.outlineOffset = '-4px';
-  }
-  if (tile.soup) {
-    el.style.boxShadow = 'inset 0 0 0 4px rgba(0,100,180,0.5)';
-  }
+  var content=document.createElement('div');
+  content.className='row-content';
 
-  var sub = (tile.soup?'湯':'乾') + '・' + (tile.big?'大':'小') + '・' + (tile.takeout?'外':'內');
+  var tagSoup  = tile.soup    ? '<span class="row-tag tag-soup">湯</span>'  : '<span class="row-tag tag-dry">乾</span>';
+  var tagSize  = tile.big     ? '<span class="row-tag tag-big">大</span>'   : '<span class="row-tag tag-small">小</span>';
+  var tagPlace = tile.takeout ? '<span class="row-tag tag-out">外</span>'   : '<span class="row-tag tag-in">內</span>';
+  var tagQty   = '<span class="row-tag tag-qty">×'+(tile.qty||1)+'</span>';
 
-  el.innerHTML =
-    '<div class="tile-name" style="color:'+n.text+'">'+n.name+'</div>'+
-    '<div class="tile-sub"  style="color:'+n.text+'">'+sub+'</div>';
+  content.innerHTML=
+    '<div class="row-name" style="color:'+n.text+';background:'+n.bg+';padding:4px 10px;border-radius:8px;">'+n.name+'</div>'+
+    '<div class="row-tags">'+tagSoup+tagSize+tagPlace+tagQty+'</div>';
 
-  el.onclick = (function(id){ return function(){ removeTile(id); }; })(tile.id);
-  grid.appendChild(el);
+  row.appendChild(bar);
+  row.appendChild(content);
+  row.onclick=(function(id){return function(){removeRow(id);};})(tile.id);
+  board.insertBefore(row, board.firstChild); // 最新的在最上面
 }
 
-/* ── Remove tile ── */
-function removeTile(id) {
-  var el = document.getElementById('tile-'+id);
-  if (!el) return;
+/* ── Remove row ── */
+function removeRow(id){
+  var el=document.getElementById('row-'+id);
+  if(!el) return;
   beep('done');
   el.classList.add('removing');
-  el.onclick = null;
+  el.onclick=null;
   setTimeout(function(){
-    tiles = tiles.filter(function(t){ return t.id!==id; });
+    tiles=tiles.filter(function(t){return t.id!==id;});
     save();
-    if (el.parentNode) el.parentNode.removeChild(el);
-    if (!tiles.length) {
+    if(el.parentNode) el.parentNode.removeChild(el);
+    if(!tiles.length){
       var board=document.getElementById('board');
       var empty=document.getElementById('boardEmpty');
       board.innerHTML=''; board.appendChild(empty);
       empty.style.display='flex';
     }
     updateBtnCounts();
-  }, 160);
+  },200);
 }
 
-/* ── Reset (long press 3s) ── */
-var pressTimer=null, pressingReset=false;
-function resetStart(e) {
-  e.preventDefault(); if (pressingReset) return; pressingReset=true;
+/* ── Reset ── */
+var pressTimer=null,pressingReset=false;
+function resetStart(e){
+  e.preventDefault(); if(pressingReset)return; pressingReset=true;
   document.getElementById('resetCorner').classList.add('pressing');
-  pressTimer=setTimeout(doReset, 3000);
+  pressTimer=setTimeout(doReset,3000);
 }
-function resetEnd() {
-  if (!pressingReset) return; pressingReset=false;
+function resetEnd(){
+  if(!pressingReset)return; pressingReset=false;
   clearTimeout(pressTimer);
   document.getElementById('resetCorner').classList.remove('pressing');
 }
-function doReset() {
+function doReset(){
   pressingReset=false;
   document.getElementById('resetCorner').classList.remove('pressing');
-  if (!tiles.length){ showToast('目前沒有訂單'); return; }
-  tiles=[]; save();
-  var board=document.getElementById('board'), empty=document.getElementById('boardEmpty');
-  board.innerHTML=''; board.appendChild(empty); empty.style.display='flex';
-  updateBtnCounts(); showToast('已清除所有訂單');
+  if(!tiles.length){showToast('目前沒有訂單');return;}
+  tiles=[];save();
+  var board=document.getElementById('board'),empty=document.getElementById('boardEmpty');
+  board.innerHTML='';board.appendChild(empty);empty.style.display='flex';
+  updateBtnCounts();showToast('已清除所有訂單');
 }
 
-function showToast(msg) {
+function showToast(msg){
   var el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  setTimeout(function(){ el.classList.remove('show'); },2000);
+  el.textContent=msg;el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show');},2000);
 }
 
 /* ── Restore ── */
-function restore() {
-  if (!tiles.length) return;
-  tiles.forEach(function(t){ addTileToDOM(t); });
+function restore(){
+  if(!tiles.length)return;
+  /* 由舊到新加入，最新的會在最上面 */
+  var sorted=tiles.slice().sort(function(a,b){return (a.s||0)-(b.s||0);});
+  sorted.forEach(function(t){addRowToDOM(t);});
   updateBtnCounts();
 }
 
 /* ── Wake Lock ── */
 function wakeLock(){
-  if ('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(function(){});
+  if('wakeLock'in navigator) navigator.wakeLock.request('screen').catch(function(){});
 }
 document.addEventListener('visibilitychange',function(){
-  if (document.visibilityState==='visible') wakeLock();
+  if(document.visibilityState==='visible') wakeLock();
 });
 
 var rc=document.getElementById('resetCorner');
@@ -541,6 +553,7 @@ rc.addEventListener('mouseup',   resetEnd,  false);
 rc.addEventListener('mouseleave',resetEnd,  false);
 
 buildButtons();
+buildQtyButtons();
 updateOptUI();
 restore();
 wakeLock();
