@@ -28,109 +28,141 @@ body {
   padding-left: var(--safe-left); padding-right: var(--safe-right);
 }
 
-/* ══ LEFT：麵種 ══ */
-.left {
-  width: 140px; -webkit-flex-shrink: 0; flex-shrink: 0;
-  background: #141414; border-right: 2px solid #2a2a2a;
+/* ══════════════════════════
+   第一欄：麵種
+══════════════════════════ */
+.col-noodle {
+  width: 150px; -webkit-flex-shrink: 0; flex-shrink: 0;
+  background: #141414;
+  border-right: 2px solid #2a2a2a;
   display: -webkit-flex; display: flex;
-  -webkit-flex-direction: column; flex-direction: column; overflow: hidden;
-}
-.order-btns {
-  -webkit-flex: 1; flex: 1; overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  -webkit-flex-direction: column; flex-direction: column;
+  overflow: hidden;
   padding: 8px 8px;
-  display: -webkit-flex; display: flex;
-  -webkit-flex-direction: column; flex-direction: column; gap: 6px;
+  gap: 7px;
 }
-.order-btn {
-  width: 100%; height: 50px;
-  border-radius: 10px; border: none;
+.noodle-btn {
+  width: 100%; height: 68px;
+  border-radius: 12px; border: none;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: center; justify-content: center;
   cursor: pointer; touch-action: manipulation;
   -webkit-user-select: none; user-select: none;
   -webkit-touch-callout: none; -webkit-appearance: none; appearance: none;
-  outline: 3px solid transparent; outline-offset: 2px;
+  outline: 4px solid transparent; outline-offset: 2px;
   -webkit-transition: outline-color .1s; transition: outline-color .1s;
+  position: relative;
 }
-.order-btn.selected { outline-color: #fff; }
-.order-btn:active { opacity: 0.6; }
-.btn-name { font-size: 22px; font-weight: 900; }
-.btn-count {
-  font-size: 13px; font-weight: 900;
-  background: rgba(0,0,0,0.25); border-radius: 10px;
-  padding: 1px 6px; margin-left: 4px; display: none;
+.noodle-btn.selected { outline-color: #fff; }
+.noodle-btn:active { opacity: 0.6; }
+.noodle-btn-name { font-size: 26px; font-weight: 900; }
+.noodle-btn-cnt {
+  position: absolute; top: 4px; right: 6px;
+  font-size: 14px; font-weight: 900;
+  background: rgba(0,0,0,0.3); border-radius: 8px; padding: 1px 6px;
+  display: none;
 }
-.btn-count.show { display: block; }
+.noodle-btn-cnt.show { display: block; }
 
-/* ══ RIGHT ══ */
-.right {
-  -webkit-flex: 1; flex: 1; background: #0a0a0a;
+/* ══════════════════════════
+   第二欄：細節選項
+══════════════════════════ */
+.col-opts {
+  width: 150px; -webkit-flex-shrink: 0; flex-shrink: 0;
+  background: #111;
+  border-right: 2px solid #2a2a2a;
   display: -webkit-flex; display: flex;
-  -webkit-flex-direction: column; flex-direction: column; overflow: hidden;
+  -webkit-flex-direction: column; flex-direction: column;
+  padding: 8px 8px;
+  gap: 6px;
+  overflow-y: auto;
 }
 
-/* header */
-.right-header {
-  padding: 8px 14px; border-bottom: 2px solid #1e1e1e; background: #111;
+.opt-group-label {
+  font-size: 12px; font-weight: 700; color: #555;
+  letter-spacing: 2px; padding: 4px 2px 0;
+}
+
+.opt-row {
+  display: -webkit-flex; display: flex;
+  gap: 6px;
+}
+
+.opt-btn {
+  -webkit-flex: 1; flex: 1;
+  height: 56px;
+  border-radius: 12px;
+  border: 2px solid #2a2a2a;
+  background: #1e1e1e; color: #666;
+  font-size: 28px; font-weight: 900;
+  cursor: pointer; touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none; -webkit-appearance: none; appearance: none;
+  display: -webkit-flex; display: flex;
+  -webkit-align-items: center; align-items: center;
+  -webkit-justify-content: center; justify-content: center;
+  -webkit-transition: all .1s; transition: all .1s;
+}
+.opt-btn:active { opacity: 0.6; }
+
+/* 選中樣式 */
+.opt-btn.sel-dry   { border-color: #aaa;    background: #2a2a2a; color: #fff; }
+.opt-btn.sel-soup  { border-color: #4a90d0; background: #0a2040; color: #7ec8f8; }
+.opt-btn.sel-small { border-color: #aaa;    background: #2a2a2a; color: #fff; }
+.opt-btn.sel-big   { border-color: #d0a040; background: #2a1a00; color: #ffd060; }
+.opt-btn.sel-in    { border-color: #40a060; background: #0a2010; color: #60d080; }
+.opt-btn.sel-out   { border-color: #d06020; background: #2a1000; color: #f0a040; }
+.opt-btn.sel-qty   { border-color: #c060e0; background: #1a0a28; color: #e090ff; }
+
+/* 數量按鈕小一點的字 */
+.opt-btn.qty-btn { font-size: 26px; }
+
+/* 送出按鈕 */
+.submit-btn {
+  width: 100%; height: 60px;
+  border-radius: 12px; border: none;
+  background: #333; color: #555;
+  font-size: 22px; font-weight: 900;
+  cursor: pointer; touch-action: manipulation;
+  -webkit-appearance: none; appearance: none;
+  margin-top: 4px;
+  -webkit-transition: background .15s, color .15s; transition: background .15s, color .15s;
+}
+.submit-btn.ready {
+  background: linear-gradient(135deg, #e8a000, #c07800);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(232,160,0,0.3);
+}
+.submit-btn.ready:active { opacity: 0.7; }
+
+/* ══════════════════════════
+   第三欄：清單看板
+══════════════════════════ */
+.col-board {
+  -webkit-flex: 1; flex: 1;
+  display: -webkit-flex; display: flex;
+  -webkit-flex-direction: column; flex-direction: column;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+
+.board-header {
+  padding: 10px 16px;
+  background: #111; border-bottom: 2px solid #1e1e1e;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: space-between; justify-content: space-between;
   -webkit-flex-shrink: 0; flex-shrink: 0;
-  gap: 8px;
 }
-.right-title { font-size: 16px; font-weight: 900; white-space: nowrap; }
-.pending-badge { font-size: 13px; color: #888; white-space: nowrap; }
-.pending-badge b { color: #fff; font-size: 20px; font-weight: 900; }
+.board-title { font-size: 18px; font-weight: 900; }
+.pending-badge { font-size: 14px; color: #888; }
+.pending-badge b { color: #fff; font-size: 24px; font-weight: 900; }
 
-/* ══ 選項列 ══ */
-.option-bar {
-  -webkit-flex-shrink: 0; flex-shrink: 0;
-  padding: 8px 10px;
-  background: #161616; border-bottom: 2px solid #2a2a2a;
-  display: -webkit-flex; display: flex;
-  -webkit-align-items: center; align-items: center;
-  gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;
-}
-.opt-group {
-  display: -webkit-flex; display: flex; gap: 5px;
-  -webkit-flex-shrink: 0; flex-shrink: 0;
-}
-.opt-divider {
-  width: 1px; min-height: 40px; background: #333; margin: 0 2px;
-  -webkit-flex-shrink: 0; flex-shrink: 0;
-}
-.opt-btn {
-  width: 52px; height: 52px; border-radius: 12px;
-  border: 2px solid #333; background: #222; color: #666;
-  font-size: 24px; font-weight: 900;
-  cursor: pointer; touch-action: manipulation;
-  -webkit-user-select: none; user-select: none;
-  -webkit-appearance: none; appearance: none;
-  display: -webkit-flex; display: flex;
-  -webkit-align-items: center; align-items: center;
-  -webkit-justify-content: center; justify-content: center;
-  -webkit-flex-shrink: 0; flex-shrink: 0;
-  -webkit-transition: all .1s; transition: all .1s;
-}
-.opt-btn:active { opacity: 0.6; }
-.opt-btn.sel-soup  { border-color: #4a90d0; background: #0a2040; color: #7ec8f8; }
-.opt-btn.sel-dry   { border-color: #aaa;    background: #2a2a2a; color: #fff; }
-.opt-btn.sel-big   { border-color: #d0a040; background: #2a1a00; color: #ffd060; }
-.opt-btn.sel-small { border-color: #aaa;    background: #2a2a2a; color: #fff; }
-.opt-btn.sel-out   { border-color: #d06020; background: #2a1000; color: #f0a040; }
-.opt-btn.sel-in    { border-color: #40a060; background: #0a2010; color: #60d080; }
-.opt-btn.sel-qty   { border-color: #c060e0; background: #1a0a28; color: #e090ff; }
-
-.hint-text { font-size: 13px; color: #444; white-space: nowrap; margin-left: 4px; }
-
-/* ══ 清單看板 ══ */
 .board {
   -webkit-flex: 1; flex: 1;
   overflow-y: scroll; -webkit-overflow-scrolling: touch;
-  overflow-x: hidden;
-  padding: 8px 10px 20px;
+  padding: 10px 12px 80px;
 }
 .board-empty {
   height: 100%; display: -webkit-flex; display: flex;
@@ -139,20 +171,17 @@ body {
   -webkit-justify-content: center; justify-content: center;
   gap: 10px; opacity: 0.2; pointer-events: none;
 }
-.board-empty .ei { font-size: 52px; }
-.board-empty .et { font-size: 16px; font-weight: 700; color: #666; }
+.board-empty .ei { font-size: 56px; }
+.board-empty .et { font-size: 18px; font-weight: 700; color: #666; }
 
-/* ── 訂單列 ── */
+/* 訂單列 */
 .order-row {
   display: -webkit-flex; display: flex;
-  -webkit-align-items: center; align-items: center;
-  gap: 0;
-  margin-bottom: 8px;
-  border-radius: 14px;
-  overflow: hidden;
-  min-height: 64px;
-  cursor: pointer;
-  touch-action: manipulation;
+  -webkit-align-items: stretch; align-items: stretch;
+  margin-bottom: 10px;
+  border-radius: 16px; overflow: hidden;
+  min-height: 74px;
+  cursor: pointer; touch-action: manipulation;
   -webkit-user-select: none; user-select: none;
   -webkit-touch-callout: none;
   -webkit-animation: row-in .2s cubic-bezier(.34,1.56,.64,1) both;
@@ -160,70 +189,62 @@ body {
 }
 .order-row:active { opacity: 0.5; }
 @-webkit-keyframes row-in {
-  from { opacity:0; -webkit-transform:translateX(-20px); }
+  from { opacity:0; -webkit-transform:translateX(-16px); }
   to   { opacity:1; -webkit-transform:translateX(0); }
 }
 @keyframes row-in {
-  from { opacity:0; transform:translateX(-20px); }
+  from { opacity:0; transform:translateX(-16px); }
   to   { opacity:1; transform:translateX(0); }
 }
 .order-row.removing {
-  -webkit-animation: row-out .18s ease-in forwards !important;
-  animation: row-out .18s ease-in forwards !important;
+  overflow: hidden;
+  -webkit-animation: row-out .2s ease-in forwards !important;
+  animation: row-out .2s ease-in forwards !important;
   pointer-events: none;
 }
 @-webkit-keyframes row-out {
-  from { opacity:1; -webkit-transform:scaleY(1); max-height:200px; margin-bottom:8px; }
-  to   { opacity:0; -webkit-transform:scaleY(0); max-height:0; margin-bottom:0; }
+  from { opacity:1; max-height:120px; margin-bottom:10px; }
+  to   { opacity:0; max-height:0;     margin-bottom:0; }
 }
 @keyframes row-out {
-  from { opacity:1; transform:scaleY(1); max-height:200px; margin-bottom:8px; }
-  to   { opacity:0; transform:scaleY(0); max-height:0; margin-bottom:0; }
+  from { opacity:1; max-height:120px; margin-bottom:10px; }
+  to   { opacity:0; max-height:0;     margin-bottom:0; }
 }
 
-/* 左側色條（麵種顏色） */
-.row-color-bar {
-  width: 12px; min-height: 64px;
-  -webkit-align-self: stretch; align-self: stretch;
-  -webkit-flex-shrink: 0; flex-shrink: 0;
-}
+.row-bar { width: 14px; -webkit-flex-shrink: 0; flex-shrink: 0; }
 
-/* 主內容 */
-.row-content {
+.row-body {
   -webkit-flex: 1; flex: 1;
   background: #1c1c1c;
-  padding: 0 16px;
-  min-height: 64px;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
-  gap: 14px;
+  padding: 10px 18px;
+  gap: 16px;
 }
 
-/* 麵種名 */
-.row-name {
-  font-size: 26px; font-weight: 900;
-  white-space: nowrap;
-  min-width: 72px;
+.row-noodle {
+  font-size: 28px; font-weight: 900;
+  padding: 5px 14px; border-radius: 10px;
+  white-space: nowrap; -webkit-flex-shrink: 0; flex-shrink: 0;
 }
 
-/* 屬性標籤列 */
 .row-tags {
   display: -webkit-flex; display: flex;
   gap: 8px; -webkit-flex-wrap: wrap; flex-wrap: wrap;
   -webkit-flex: 1; flex: 1;
 }
 .row-tag {
-  font-size: 20px; font-weight: 900;
-  padding: 4px 12px; border-radius: 8px;
+  font-size: 24px; font-weight: 900;
+  padding: 4px 14px; border-radius: 8px;
   white-space: nowrap;
 }
-.tag-soup    { background: #0a2040; color: #7ec8f8; }
-.tag-dry     { background: #222;    color: #ccc; }
-.tag-big     { background: #2a1a00; color: #ffd060; }
-.tag-small   { background: #222;    color: #ccc; }
-.tag-out     { background: #2a1000; color: #f0a040; }
-.tag-in      { background: #0a2010; color: #60d080; }
-.tag-qty     { background: #1a0a28; color: #e090ff; min-width: 48px; text-align: center; }
+.tag-soup  { background: #0a2040; color: #7ec8f8; }
+.tag-dry   { background: #252525; color: #ccc; }
+.tag-big   { background: #2a1a00; color: #ffd060; }
+.tag-small { background: #252525; color: #ccc; }
+.tag-out   { background: #2a1000; color: #f0a040; }
+.tag-in    { background: #0a2010; color: #60d080; }
+.tag-qty   { background: #1a0a28; color: #e090ff; min-width: 56px; text-align: center; }
 
 /* ══ Reset ══ */
 .reset-corner {
@@ -236,8 +257,7 @@ body {
   -webkit-justify-content: center; justify-content: center;
   -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
   touch-action: none; z-index: 100;
-  -webkit-transition: border-color .2s, background .2s, color .2s;
-  transition: border-color .2s, background .2s, color .2s;
+  -webkit-transition: border-color .2s, background .2s; transition: border-color .2s, background .2s;
 }
 .reset-corner.pressing { border-color: #ff5555; background: #2a1010; color: #ff5555; }
 .reset-corner svg { position: absolute; top:0; left:0;
@@ -266,44 +286,46 @@ body {
 </head>
 <body>
 
-<!-- LEFT -->
-<div class="left">
-  <div class="order-btns" id="orderBtns"></div>
+<!-- 第一欄：麵種 -->
+<div class="col-noodle" id="colNoodle"></div>
+
+<!-- 第二欄：細節 -->
+<div class="col-opts">
+  <div class="opt-group-label">湯・乾</div>
+  <div class="opt-row">
+    <button type="button" class="opt-btn" id="opt-dry"  onclick="setOpt('soup',false)">乾</button>
+    <button type="button" class="opt-btn" id="opt-soup" onclick="setOpt('soup',true)">湯</button>
+  </div>
+
+  <div class="opt-group-label">大・小</div>
+  <div class="opt-row">
+    <button type="button" class="opt-btn" id="opt-small" onclick="setOpt('big',false)">小</button>
+    <button type="button" class="opt-btn" id="opt-big"   onclick="setOpt('big',true)">大</button>
+  </div>
+
+  <div class="opt-group-label">內・外</div>
+  <div class="opt-row">
+    <button type="button" class="opt-btn" id="opt-in"  onclick="setOpt('takeout',false)">內</button>
+    <button type="button" class="opt-btn" id="opt-out" onclick="setOpt('takeout',true)">外</button>
+  </div>
+
+  <div class="opt-group-label">數量</div>
+  <div class="opt-row" id="qtyRow1"></div>
+  <div class="opt-row" id="qtyRow2"></div>
+
+  <button type="button" class="submit-btn" id="submitBtn" onclick="submitOrder()">送出</button>
 </div>
 
-<!-- RIGHT -->
-<div class="right">
-  <div class="right-header">
-    <div class="right-title">🍜 煮麵看板</div>
+<!-- 第三欄：清單 -->
+<div class="col-board">
+  <div class="board-header">
+    <div class="board-title">🍜 煮麵清單</div>
     <div class="pending-badge">待煮 <b id="pendingCount">0</b> 份</div>
   </div>
-
-  <!-- 選項列 -->
-  <div class="option-bar">
-    <div class="opt-group">
-      <button type="button" class="opt-btn" id="opt-dry"   onclick="selectOpt('soup',false)">乾</button>
-      <button type="button" class="opt-btn" id="opt-soup"  onclick="selectOpt('soup',true)">湯</button>
-    </div>
-    <div class="opt-divider"></div>
-    <div class="opt-group">
-      <button type="button" class="opt-btn" id="opt-small" onclick="selectOpt('big',false)">小</button>
-      <button type="button" class="opt-btn" id="opt-big"   onclick="selectOpt('big',true)">大</button>
-    </div>
-    <div class="opt-divider"></div>
-    <div class="opt-group">
-      <button type="button" class="opt-btn" id="opt-in"    onclick="selectOpt('takeout',false)">內</button>
-      <button type="button" class="opt-btn" id="opt-out"   onclick="selectOpt('takeout',true)">外</button>
-    </div>
-    <div class="opt-divider"></div>
-    <div class="opt-group" id="qtyBtns"></div>
-
-  </div>
-
-  <!-- 看板 -->
   <div class="board" id="board">
     <div class="board-empty" id="boardEmpty">
       <div class="ei">🫕</div>
-      <div class="et">左側選麵種開始</div>
+      <div class="et">左側選好後按送出</div>
     </div>
   </div>
 </div>
@@ -356,56 +378,94 @@ function beep(type){
 }
 
 /* ── Storage ── */
-function load(){ try{return JSON.parse(localStorage.getItem('nm7')||'[]');}catch(e){return[];} }
-function save(){ try{localStorage.setItem('nm7',JSON.stringify(tiles));}catch(e){} }
+function load(){ try{return JSON.parse(localStorage.getItem('nm8')||'[]');}catch(e){return[];} }
+function save(){ try{localStorage.setItem('nm8',JSON.stringify(tiles));}catch(e){} }
 function getNoodle(id){
   for(var i=0;i<NOODLES.length;i++) if(NOODLES[i].id===id) return NOODLES[i];
   return{id:id,name:id,bg:'#888',text:'#000'};
 }
 
-/* ── Build qty buttons ── */
-function buildQtyButtons(){
-  var c=document.getElementById('qtyBtns');
+/* ── Build 第一欄麵種 ── */
+function buildNoodleBtns(){
+  var c=document.getElementById('colNoodle');
   c.innerHTML='';
+  NOODLES.forEach(function(n){
+    var btn=document.createElement('button');
+    btn.type='button'; btn.className='noodle-btn'; btn.id='nb-'+n.id;
+    btn.style.background=n.bg;
+    btn.innerHTML=
+      '<span class="noodle-btn-name" style="color:'+n.text+'">'+n.name+'</span>'+
+      '<span class="noodle-btn-cnt" id="nc-'+n.id+'" style="color:'+n.text+'">0</span>';
+    btn.onclick=(function(id){return function(){selectNoodle(id);};})(n.id);
+    c.appendChild(btn);
+  });
+}
+
+function selectNoodle(id){
+  actx();
+  state.noodle=id;
+  var btns=document.querySelectorAll('.noodle-btn');
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove('selected');
+  var el=document.getElementById('nb-'+id);
+  if(el) el.classList.add('selected');
+  updateSubmitBtn();
+}
+
+/* ── Build 數量按鈕 ── */
+function buildQtyBtns(){
+  var r1=document.getElementById('qtyRow1');
+  var r2=document.getElementById('qtyRow2');
+  r1.innerHTML=''; r2.innerHTML='';
   for(var i=1;i<=5;i++){
     var btn=document.createElement('button');
-    btn.type='button';
-    btn.className='opt-btn';
-    btn.id='opt-qty-'+i;
+    btn.type='button'; btn.className='opt-btn qty-btn'; btn.id='opt-qty-'+i;
     btn.textContent=i;
-    btn.onclick=(function(q){return function(){selectOpt('qty',q);};})(i);
-    c.appendChild(btn);
+    btn.onclick=(function(q){return function(){setOpt('qty',q);};})(i);
+    if(i<=3) r1.appendChild(btn);
+    else r2.appendChild(btn);
   }
 }
 
-/* ── Update option UI ── */
-function updateOptUI(){
-  document.getElementById('opt-dry').className   ='opt-btn'+(!state.soup?'   sel-dry':'');
-  document.getElementById('opt-soup').className  ='opt-btn'+(state.soup?'  sel-soup':'');
-  document.getElementById('opt-small').className ='opt-btn'+(!state.big?'  sel-small':'');
-  document.getElementById('opt-big').className   ='opt-btn'+(state.big?'   sel-big':'');
-  document.getElementById('opt-in').className    ='opt-btn'+(!state.takeout?' sel-in':'');
-  document.getElementById('opt-out').className   ='opt-btn'+(state.takeout?' sel-out':'');
-  for(var i=1;i<=5;i++){
-    var el=document.getElementById('opt-qty-'+i);
-    if(el) el.className='opt-btn'+(state.qty===i?' sel-qty':'');
-  }
-
-}
-
-function selectOpt(key,val){
+/* ── 選項狀態 ── */
+function setOpt(key,val){
   actx();
   state[key]=val;
   updateOptUI();
 }
 
-/* ── 選麵種 → 直接加入 ── */
-function selectNoodle(id){
-  actx();
+function updateOptUI(){
+  document.getElementById('opt-dry').className   ='opt-btn'+(!state.soup?'    sel-dry':'');
+  document.getElementById('opt-soup').className  ='opt-btn'+(state.soup?'   sel-soup':'');
+  document.getElementById('opt-small').className ='opt-btn'+(!state.big?'   sel-small':'');
+  document.getElementById('opt-big').className   ='opt-btn'+(state.big?'    sel-big':'');
+  document.getElementById('opt-in').className    ='opt-btn'+(!state.takeout?' sel-in':'');
+  document.getElementById('opt-out').className   ='opt-btn'+(state.takeout?' sel-out':'');
+  for(var i=1;i<=5;i++){
+    var el=document.getElementById('opt-qty-'+i);
+    if(el) el.className='opt-btn qty-btn'+(state.qty===i?' sel-qty':'');
+  }
+  updateSubmitBtn();
+}
+
+function updateSubmitBtn(){
+  var btn=document.getElementById('submitBtn');
+  if(state.noodle){
+    btn.className='submit-btn ready';
+    var n=getNoodle(state.noodle);
+    btn.textContent='送出 '+n.name;
+  } else {
+    btn.className='submit-btn';
+    btn.textContent='送出';
+  }
+}
+
+/* ── 送出訂單 ── */
+function submitOrder(){
+  if(!state.noodle) return;
   seq++;
   var t={
     id:Date.now().toString(36)+(seq%999),
-    s:seq, n:id,
+    s:seq, n:state.noodle,
     soup:state.soup, big:state.big,
     takeout:state.takeout, qty:state.qty
   };
@@ -415,30 +475,17 @@ function selectNoodle(id){
   updateBtnCounts();
   beep('add');
 
-  /* 短暫高亮按鈕 */
-  var btn=document.getElementById('obtn-'+id);
-  if(btn){ btn.classList.add('selected'); setTimeout(function(){btn.classList.remove('selected');},300); }
-}
-
-/* ── Build left buttons ── */
-function buildButtons(){
-  var c=document.getElementById('orderBtns');
-  c.innerHTML='';
-  NOODLES.forEach(function(n){
-    var btn=document.createElement('button');
-    btn.type='button'; btn.className='order-btn'; btn.id='obtn-'+n.id;
-    btn.style.background=n.bg;
-    btn.innerHTML='<span class="btn-name" style="color:'+n.text+'">'+n.name+'</span>'+
-      '<span class="btn-count" id="bcnt-'+n.id+'" style="color:'+n.text+'">0</span>';
-    btn.onclick=(function(id){return function(){selectNoodle(id);};})(n.id);
-    c.appendChild(btn);
-  });
+  /* 清掉麵種選擇，細節保留 */
+  state.noodle=null;
+  var btns=document.querySelectorAll('.noodle-btn');
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove('selected');
+  updateSubmitBtn();
 }
 
 function updateBtnCounts(){
   NOODLES.forEach(function(n){
     var cnt=tiles.filter(function(t){return t.n===n.id;}).length;
-    var el=document.getElementById('bcnt-'+n.id);
+    var el=document.getElementById('nc-'+n.id);
     if(!el) return;
     el.textContent=cnt;
     if(cnt>0) el.classList.add('show'); else el.classList.remove('show');
@@ -446,57 +493,51 @@ function updateBtnCounts(){
   document.getElementById('pendingCount').textContent=tiles.length;
 }
 
-/* ── Add row to DOM ── */
+/* ── 新增列到看板 ── */
 function addRowToDOM(tile){
   var board=document.getElementById('board');
   document.getElementById('boardEmpty').style.display='none';
 
   var n=getNoodle(tile.n);
   var row=document.createElement('div');
-  row.className='order-row';
-  row.id='row-'+tile.id;
+  row.className='order-row'; row.id='row-'+tile.id;
 
   var bar=document.createElement('div');
-  bar.className='row-color-bar';
-  bar.style.background=n.bg;
+  bar.className='row-bar'; bar.style.background=n.bg;
 
-  var content=document.createElement('div');
-  content.className='row-content';
+  var body=document.createElement('div');
+  body.className='row-body';
 
-  var tagSoup  = tile.soup    ? '<span class="row-tag tag-soup">湯</span>'  : '<span class="row-tag tag-dry">乾</span>';
-  var tagSize  = tile.big     ? '<span class="row-tag tag-big">大</span>'   : '<span class="row-tag tag-small">小</span>';
-  var tagPlace = tile.takeout ? '<span class="row-tag tag-out">外</span>'   : '<span class="row-tag tag-in">內</span>';
-  var tagQty   = '<span class="row-tag tag-qty">×'+(tile.qty||1)+'</span>';
+  var tagSoup  =tile.soup    ?'<span class="row-tag tag-soup">湯</span>'  :'<span class="row-tag tag-dry">乾</span>';
+  var tagSize  =tile.big     ?'<span class="row-tag tag-big">大</span>'   :'<span class="row-tag tag-small">小</span>';
+  var tagPlace =tile.takeout ?'<span class="row-tag tag-out">外</span>'   :'<span class="row-tag tag-in">內</span>';
+  var tagQty   ='<span class="row-tag tag-qty">&times;'+(tile.qty||1)+'</span>';
 
-  content.innerHTML=
-    '<div class="row-name" style="color:'+n.text+';background:'+n.bg+';padding:4px 10px;border-radius:8px;">'+n.name+'</div>'+
+  body.innerHTML=
+    '<div class="row-noodle" style="background:'+n.bg+';color:'+n.text+'">'+n.name+'</div>'+
     '<div class="row-tags">'+tagSoup+tagSize+tagPlace+tagQty+'</div>';
 
-  row.appendChild(bar);
-  row.appendChild(content);
+  row.appendChild(bar); row.appendChild(body);
   row.onclick=(function(id){return function(){removeRow(id);};})(tile.id);
-  board.insertBefore(row, board.firstChild); // 最新的在最上面
+  board.insertBefore(row, board.firstChild);
 }
 
-/* ── Remove row ── */
+/* ── 移除列 ── */
 function removeRow(id){
   var el=document.getElementById('row-'+id);
   if(!el) return;
   beep('done');
-  el.classList.add('removing');
-  el.onclick=null;
+  el.classList.add('removing'); el.onclick=null;
   setTimeout(function(){
     tiles=tiles.filter(function(t){return t.id!==id;});
     save();
     if(el.parentNode) el.parentNode.removeChild(el);
     if(!tiles.length){
-      var board=document.getElementById('board');
-      var empty=document.getElementById('boardEmpty');
-      board.innerHTML=''; board.appendChild(empty);
-      empty.style.display='flex';
+      var board=document.getElementById('board'),empty=document.getElementById('boardEmpty');
+      board.innerHTML=''; board.appendChild(empty); empty.style.display='flex';
     }
     updateBtnCounts();
-  },200);
+  },220);
 }
 
 /* ── Reset ── */
@@ -530,7 +571,6 @@ function showToast(msg){
 /* ── Restore ── */
 function restore(){
   if(!tiles.length)return;
-  /* 由舊到新加入，最新的會在最上面 */
   var sorted=tiles.slice().sort(function(a,b){return (a.s||0)-(b.s||0);});
   sorted.forEach(function(t){addRowToDOM(t);});
   updateBtnCounts();
@@ -552,8 +592,8 @@ rc.addEventListener('mousedown', resetStart,false);
 rc.addEventListener('mouseup',   resetEnd,  false);
 rc.addEventListener('mouseleave',resetEnd,  false);
 
-buildButtons();
-buildQtyButtons();
+buildNoodleBtns();
+buildQtyBtns();
 updateOptUI();
 restore();
 wakeLock();
