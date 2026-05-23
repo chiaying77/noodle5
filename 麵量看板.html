@@ -466,9 +466,9 @@ function addTileToDOM(tile) {
 
   /* 副標：組合標示 */
   var subs = [];
-  subs.push(tile.soup ? '湯麵' : '乾麵');
-  subs.push(tile.big  ? '大碗' : '小碗');
-  if (tile.takeout) subs.push('外帶');
+  subs.push(tile.soup ? '湯' : '乾');
+  subs.push(tile.big  ? '大' : '小');
+  subs.push(tile.takeout ? '外' : '內');
 
   el.innerHTML =
     '<div class="tile-name" style="color:'+n.text+'">'+n.name+'</div>' +
