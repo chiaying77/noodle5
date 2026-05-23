@@ -56,7 +56,7 @@ body {
 }
 .noodle-btn.selected { outline-color: #fff; }
 .noodle-btn:active { opacity: 0.6; }
-.noodle-btn-name { font-size: 26px; font-weight: 900; }
+.noodle-btn-name { font-size: 30px; font-weight: 900; }
 .noodle-btn-cnt {
   position: absolute; top: 4px; right: 6px;
   font-size: 14px; font-weight: 900;
@@ -89,13 +89,13 @@ body {
   gap: 6px;
 }
 
-.opt-btn {
+.opt-btn { 
   -webkit-flex: 1; flex: 1;
   height: 56px;
   border-radius: 12px;
   border: 2px solid #2a2a2a;
   background: #1e1e1e; color: #666;
-  font-size: 28px; font-weight: 900;
+  font-size: 34px; font-weight: 900;
   cursor: pointer; touch-action: manipulation;
   -webkit-user-select: none; user-select: none;
   -webkit-touch-callout: none; -webkit-appearance: none; appearance: none;
@@ -311,7 +311,6 @@ body {
 
   <div class="opt-group-label">數量</div>
   <div class="opt-row" id="qtyRow1"></div>
-  <div class="opt-row" id="qtyRow2"></div>
 
   <button type="button" class="submit-btn" id="submitBtn" onclick="submitOrder()">送出</button>
 </div>
@@ -414,15 +413,15 @@ function selectNoodle(id){
 /* ── Build 數量按鈕 ── */
 function buildQtyBtns(){
   var r1=document.getElementById('qtyRow1');
-  var r2=document.getElementById('qtyRow2');
-  r1.innerHTML=''; r2.innerHTML='';
+  r1.innerHTML='';
+  r1.style.cssText='-webkit-flex-direction:column;flex-direction:column;gap:6px;display:-webkit-flex;display:flex;';
   for(var i=1;i<=5;i++){
     var btn=document.createElement('button');
     btn.type='button'; btn.className='opt-btn qty-btn'; btn.id='opt-qty-'+i;
     btn.textContent=i;
+    btn.style.width='100%';
     btn.onclick=(function(q){return function(){setOpt('qty',q);};})(i);
-    if(i<=3) r1.appendChild(btn);
-    else r2.appendChild(btn);
+    r1.appendChild(btn);
   }
 }
 
