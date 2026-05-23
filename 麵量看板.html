@@ -14,12 +14,8 @@
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
 }
-
-* {
-  box-sizing: border-box; margin: 0; padding: 0;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-text-size-adjust: 100%;
-}
+* { box-sizing: border-box; margin: 0; padding: 0;
+    -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
 html { height: 100%; overflow: hidden; position: fixed; width: 100%; }
 body {
   height: 100%; width: 100%;
@@ -28,167 +24,69 @@ body {
   background: #0a0a0a;
   font-family: -apple-system, '蘋方-繁', 'PingFang TC', sans-serif;
   color: #fff;
-  padding-top: var(--safe-top);
-  padding-bottom: var(--safe-bottom);
-  padding-left: var(--safe-left);
-  padding-right: var(--safe-right);
+  padding-top: var(--safe-top); padding-bottom: var(--safe-bottom);
+  padding-left: var(--safe-left); padding-right: var(--safe-right);
 }
 
-/* ══════════════════════════
-   LEFT PANEL — 點餐區
-══════════════════════════ */
+/* ── LEFT ── */
 .left {
-  width: 260px;
-  -webkit-flex-shrink: 0;
-  flex-shrink: 0;
-  background: #141414;
-  border-right: 2px solid #2a2a2a;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.left-header {
-  padding: 16px 16px 12px;
-  border-bottom: 1px solid #2a2a2a;
-  background: #111;
-}
-.left-title {
-  font-size: 14px; font-weight: 900;
-  color: #888; letter-spacing: 3px;
-  margin-bottom: 4px;
-}
-.total-line {
-  font-size: 15px; color: #666;
-}
-.total-line b { color: #fff; font-size: 22px; font-weight: 900; }
-
-.order-btns {
-  -webkit-flex: 1; flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 14px 12px;
+  width: 260px; -webkit-flex-shrink: 0; flex-shrink: 0;
+  background: #141414; border-right: 2px solid #2a2a2a;
   display: -webkit-flex; display: flex;
-  -webkit-flex-direction: column; flex-direction: column;
-  gap: 10px;
+  -webkit-flex-direction: column; flex-direction: column; overflow: hidden;
 }
-
-/* 點餐按鈕 — 大、好按 */
+.order-btns {
+  -webkit-flex: 1; flex: 1; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 10px; display: -webkit-flex; display: flex;
+  -webkit-flex-direction: column; flex-direction: column; gap: 8px;
+}
 .order-btn {
-  width: 100%;
-  min-height: 68px;
-  border-radius: 16px;
-  border: none;
+  width: 100%; min-height: 66px; border-radius: 16px; border: none;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
-  -webkit-justify-content: space-between; justify-content: space-between;
-  padding: 0 12px;
   -webkit-justify-content: center; justify-content: center;
-  cursor: pointer;
+  padding: 0 12px; cursor: pointer;
   touch-action: none;
   -webkit-user-select: none; user-select: none;
   -webkit-touch-callout: none;
   -webkit-appearance: none; appearance: none;
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
 .order-btn:active { opacity: 0.65; }
-
 .btn-name { font-size: 26px; font-weight: 900; text-align: center; }
 .btn-count {
   font-size: 18px; font-weight: 900;
-  background: rgba(0,0,0,0.2);
-  border-radius: 20px;
-  padding: 3px 12px;
-  min-width: 38px;
-  text-align: center;
-  display: none;
+  background: rgba(0,0,0,0.2); border-radius: 20px;
+  padding: 3px 12px; min-width: 38px; text-align: center; display: none;
+  margin-left: 8px;
 }
 .btn-count.show { display: block; }
 
-/* divider */
-.reset-corner {
-  position: fixed;
-  bottom: calc(16px + var(--safe-bottom));
-  right: calc(16px + var(--safe-right));
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  border: 2px solid #2a2a2a;
-  background: #181818;
-  color: #444;
-  font-size: 20px;
-  cursor: pointer;
-  display: -webkit-flex; display: flex;
-  -webkit-align-items: center; align-items: center;
-  -webkit-justify-content: center; justify-content: center;
-  -webkit-user-select: none; user-select: none;
-  -webkit-touch-callout: none;
-  touch-action: none;
-  z-index: 100;
-  -webkit-transition: border-color .2s, background .2s, color .2s;
-  transition: border-color .2s, background .2s, color .2s;
-}
-.reset-corner.pressing {
-  border-color: #ff5555;
-  background: #2a1010;
-  color: #ff5555;
-}
-.reset-corner svg {
-  position: absolute; top: 0; left: 0;
-  -webkit-transform: rotate(-90deg); transform: rotate(-90deg);
-  pointer-events: none;
-}
-.reset-corner circle {
-  fill: none; stroke: #ff5555; stroke-width: 3;
-  stroke-dasharray: 163; stroke-dashoffset: 163;
-  stroke-linecap: round;
-  -webkit-transition: none; transition: none;
-}
-.reset-corner.pressing circle {
-  stroke-dashoffset: 0;
-  -webkit-transition: stroke-dashoffset 3s linear;
-  transition: stroke-dashoffset 3s linear;
-}
-
-/* ══════════════════════════
-   RIGHT PANEL — 看板
-══════════════════════════ */
+/* ── RIGHT ── */
 .right {
-  -webkit-flex: 1; flex: 1;
-  background: #0a0a0a;
+  -webkit-flex: 1; flex: 1; background: #0a0a0a;
   display: -webkit-flex; display: flex;
-  -webkit-flex-direction: column; flex-direction: column;
-  overflow: hidden;
+  -webkit-flex-direction: column; flex-direction: column; overflow: hidden;
 }
-
 .right-header {
-  padding: 14px 20px 10px;
-  border-bottom: 2px solid #1e1e1e;
-  background: #111;
+  padding: 14px 20px 10px; border-bottom: 2px solid #1e1e1e; background: #111;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: space-between; justify-content: space-between;
   -webkit-flex-shrink: 0; flex-shrink: 0;
 }
-.right-title { font-size: 20px; font-weight: 900; color: #fff; }
-.pending-badge {
-  font-size: 15px; color: #888;
-}
+.right-title { font-size: 20px; font-weight: 900; }
+.pending-badge { font-size: 15px; color: #888; }
 .pending-badge b { color: #fff; font-size: 26px; font-weight: 900; }
 
 .board {
-  -webkit-flex: 1; flex: 1;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  overflow-x: hidden;
+  -webkit-flex: 1; flex: 1; overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; overflow-x: hidden;
   padding: 16px 16px 20px;
 }
-
 .board-empty {
-  height: 100%;
-  display: -webkit-flex; display: flex;
+  height: 100%; display: -webkit-flex; display: flex;
   -webkit-flex-direction: column; flex-direction: column;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: center; justify-content: center;
@@ -199,82 +97,138 @@ body {
 
 .tiles {
   display: -webkit-flex; display: flex;
-  -webkit-flex-wrap: wrap; flex-wrap: wrap;
-  gap: 14px;
+  -webkit-flex-wrap: wrap; flex-wrap: wrap; gap: 14px;
 }
 
-/* ── Tile（右側大色塊）── */
+/* ── Tile ── */
 .tile {
-  width: 130px; height: 122px;
-  border-radius: 22px;
-  border: none;
+  width: 130px; height: 122px; border-radius: 22px; border: none;
   display: -webkit-flex; display: flex;
   -webkit-flex-direction: column; flex-direction: column;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: center; justify-content: center;
-  gap: 6px;
-  cursor: pointer;
+  gap: 4px; cursor: pointer;
   -webkit-user-select: none; user-select: none;
-  -webkit-touch-callout: none;
-  touch-action: manipulation;
+  -webkit-touch-callout: none; touch-action: manipulation;
   -webkit-animation: pop-in .2s cubic-bezier(.34,1.56,.64,1) both;
   animation: pop-in .2s cubic-bezier(.34,1.56,.64,1) both;
 }
 .tile:active { opacity: 0.55; }
-
 @-webkit-keyframes pop-in {
-  from { opacity:0; -webkit-transform:scale(0.4); }
-  to   { opacity:1; -webkit-transform:scale(1); }
+  from { opacity:0; -webkit-transform:scale(0.4); } to { opacity:1; -webkit-transform:scale(1); }
 }
 @keyframes pop-in {
-  from { opacity:0; transform:scale(0.4); }
-  to   { opacity:1; transform:scale(1); }
+  from { opacity:0; transform:scale(0.4); } to { opacity:1; transform:scale(1); }
 }
-
 .tile.removing {
   -webkit-animation: tile-out .15s ease-in forwards !important;
-  animation: tile-out .15s ease-in forwards !important;
-  pointer-events: none;
+  animation: tile-out .15s ease-in forwards !important; pointer-events: none;
 }
 @-webkit-keyframes tile-out {
-  from { opacity:1; -webkit-transform:scale(1); }
-  to   { opacity:0; -webkit-transform:scale(0.2); }
+  from { opacity:1; -webkit-transform:scale(1); } to { opacity:0; -webkit-transform:scale(0.2); }
 }
 @keyframes tile-out {
-  from { opacity:1; transform:scale(1); }
-  to   { opacity:0; transform:scale(0.2); }
+  from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(0.2); }
 }
+.tile-name { font-size: 22px; font-weight: 900; }
+.tile-sub   { font-size: 13px; font-weight: 700; opacity: 0.75; }
 
-.tile-name { font-size: 26px; font-weight: 900; }
+/* ── Popup (四選項) ── */
+.popup-overlay {
+  display: none; position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.7); z-index: 200;
+  -webkit-align-items: center; align-items: center;
+  -webkit-justify-content: center; justify-content: center;
+}
+.popup-overlay.show { display: -webkit-flex; display: flex; }
+.popup {
+  background: #1e1e1e; border-radius: 24px;
+  padding: 20px 20px 16px; width: 320px;
+  border: 2px solid #333;
+}
+.popup-title {
+  font-size: 20px; font-weight: 900; text-align: center;
+  margin-bottom: 16px; letter-spacing: 1px;
+}
+.popup-title .popup-type {
+  font-size: 14px; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; margin-left: 8px;
+  vertical-align: middle;
+}
+.type-dine    { background: #1a3a1a; color: #60d060; }
+.type-takeout { background: #3a1a00; color: #f0a030; }
+.popup-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.popup-btn {
+  min-height: 100px; border-radius: 16px; border: none;
+  display: -webkit-flex; display: flex;
+  -webkit-flex-direction: column; flex-direction: column;
+  -webkit-align-items: center; align-items: center;
+  -webkit-justify-content: center; justify-content: center;
+  gap: 4px; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+  touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+}
+.popup-btn:active { opacity: 0.65; -webkit-transform: scale(0.96); transform: scale(0.96); }
+.pb-main { font-size: 28px; font-weight: 900; }
+.pb-sub  { font-size: 28px; font-weight: 900; opacity: 0.85; }
+.popup-cancel {
+  width: 100%; margin-top: 10px; min-height: 44px;
+  border-radius: 12px; border: 1px solid #333;
+  background: transparent; color: #666;
+  font-size: 16px; font-weight: 700; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+  touch-action: manipulation;
+}
+.popup-cancel:active { opacity: 0.6; }
+
+/* ── Reset corner ── */
+.reset-corner {
+  position: fixed; bottom: calc(16px + var(--safe-bottom)); right: calc(16px + var(--safe-right));
+  width: 56px; height: 56px; border-radius: 50%;
+  border: 2px solid #2a2a2a; background: #181818; color: #444; font-size: 20px;
+  cursor: pointer;
+  display: -webkit-flex; display: flex;
+  -webkit-align-items: center; align-items: center;
+  -webkit-justify-content: center; justify-content: center;
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+  touch-action: none; z-index: 100;
+  -webkit-transition: border-color .2s, background .2s, color .2s;
+  transition: border-color .2s, background .2s, color .2s;
+}
+.reset-corner.pressing { border-color: #ff5555; background: #2a1010; color: #ff5555; }
+.reset-corner svg { position: absolute; top:0; left:0;
+  -webkit-transform: rotate(-90deg); transform: rotate(-90deg); pointer-events: none; }
+.reset-corner circle {
+  fill: none; stroke: #ff5555; stroke-width: 3;
+  stroke-dasharray: 163; stroke-dashoffset: 163; stroke-linecap: round;
+  -webkit-transition: none; transition: none;
+}
+.reset-corner.pressing circle {
+  stroke-dashoffset: 0;
+  -webkit-transition: stroke-dashoffset 3s linear; transition: stroke-dashoffset 3s linear;
+}
 
 /* ── Toast ── */
 .toast {
-  position: fixed;
-  bottom: calc(18px + var(--safe-bottom)); left: 50%;
-  -webkit-transform: translateX(-50%) translateY(14px);
-  transform: translateX(-50%) translateY(14px);
-  background: #111; border: 2px solid #444;
-  border-radius: 14px; padding: 12px 24px;
+  position: fixed; bottom: calc(18px + var(--safe-bottom)); left: 50%;
+  -webkit-transform: translateX(-50%) translateY(14px); transform: translateX(-50%) translateY(14px);
+  background: #111; border: 2px solid #444; border-radius: 14px; padding: 12px 24px;
   font-size: 16px; font-weight: 700; color: #fff;
   z-index: 999; opacity: 0; pointer-events: none; white-space: nowrap;
-  -webkit-transition: opacity .2s, -webkit-transform .2s;
-  transition: opacity .2s, transform .2s;
+  -webkit-transition: opacity .2s, -webkit-transform .2s; transition: opacity .2s, transform .2s;
 }
-.toast.show {
-  opacity: 1;
-  -webkit-transform: translateX(-50%) translateY(0);
-  transform: translateX(-50%) translateY(0);
-}
+.toast.show { opacity:1; -webkit-transform:translateX(-50%) translateY(0); transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- LEFT: 點餐區 -->
 <div class="left">
   <div class="order-btns" id="orderBtns"></div>
 </div>
 
-<!-- RIGHT: 看板 -->
 <div class="right">
   <div class="right-header">
     <div class="right-title">🍜 煮麵看板</div>
@@ -288,10 +242,17 @@ body {
   </div>
 </div>
 
+<!-- 四選項 popup -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup">
+    <div class="popup-title" id="popupTitle">油麵 <span class="popup-type" id="popupType"></span></div>
+    <div class="popup-grid" id="popupGrid"></div>
+    <button class="popup-cancel" onclick="closePopup()">取消</button>
+  </div>
+</div>
+
 <div class="reset-corner" id="resetCorner">
-  <svg width="56" height="56" viewBox="0 0 56 56">
-    <circle cx="28" cy="28" r="26" id="resetRing"/>
-  </svg>
+  <svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26"/></svg>
   🗑
 </div>
 <div class="toast" id="toast"></div>
@@ -309,8 +270,18 @@ var NOODLES = [
   { id:'squid2',name:'魷魚',   bg:'#7EC8E8', text:'#002a3a' },
 ];
 
+/* 四個選項：乾小 / 乾大 / 湯小 / 湯大 */
+var OPTIONS = [
+  { soup:false, big:false, label:'乾麵', sub:'小碗', bg:'#222', text:'#fff' },
+  { soup:false, big:true,  label:'乾麵', sub:'大碗', bg:'#333', text:'#fff' },
+  { soup:true,  big:false, label:'湯麵', sub:'小碗', bg:'#0a2040', text:'#7ec8f8' },
+  { soup:true,  big:true,  label:'湯麵', sub:'大碗', bg:'#0a1a30', text:'#7ec8f8' },
+];
+
 var tiles = load();
 var seq = tiles.length ? Math.max.apply(null, tiles.map(function(t){ return t.s||0; })) : 0;
+var pendingNoodle = null;   // 等待選項的麵種id
+var pendingTakeout = false; // 是否外帶
 
 /* ── Audio ── */
 var _ctx = null;
@@ -338,10 +309,10 @@ function beep(type) {
 
 /* ── Storage ── */
 function load() {
-  try { return JSON.parse(localStorage.getItem('nm4')||'[]'); } catch(e){ return []; }
+  try { return JSON.parse(localStorage.getItem('nm5')||'[]'); } catch(e){ return []; }
 }
 function save() {
-  try { localStorage.setItem('nm4', JSON.stringify(tiles)); } catch(e){}
+  try { localStorage.setItem('nm5', JSON.stringify(tiles)); } catch(e){}
 }
 function getNoodle(id) {
   for (var i=0;i<NOODLES.length;i++) if(NOODLES[i].id===id) return NOODLES[i];
@@ -361,34 +332,28 @@ function buildButtons() {
     btn.innerHTML =
       '<span class="btn-name" style="color:'+n.text+'">'+n.name+'</span>'+
       '<span class="btn-count" id="bcnt-'+n.id+'" style="color:'+n.text+'">0</span>';
-    /* 長按計時器 */
-    (function(id, btnEl){
-      var t = null;
-      var fired = false;
 
+    /* 短按=內用  長按=外帶 */
+    (function(id, btnEl){
+      var t = null, fired = false;
       function onStart(e) {
         e.preventDefault();
         fired = false;
-        btnEl.style.opacity = '0.75';
+        btnEl.style.opacity = '0.7';
         t = setTimeout(function(){
           fired = true;
           btnEl.style.opacity = '1';
-          /* 長按震動提示 */
           if (navigator.vibrate) navigator.vibrate(40);
-          addTile(id, true);
+          openPopup(id, true);   // 外帶
         }, 600);
       }
       function onEnd(e) {
         clearTimeout(t);
         btnEl.style.opacity = '1';
-        if (!fired) addTile(id, false);
+        if (!fired) openPopup(id, false); // 內用
         fired = false;
       }
-      function onCancel() {
-        clearTimeout(t);
-        btnEl.style.opacity = '1';
-        fired = false;
-      }
+      function onCancel() { clearTimeout(t); btnEl.style.opacity='1'; fired=false; }
       btnEl.addEventListener('touchstart', onStart, {passive:false});
       btnEl.addEventListener('touchend',   onEnd,   false);
       btnEl.addEventListener('touchcancel',onCancel,false);
@@ -396,6 +361,7 @@ function buildButtons() {
       btnEl.addEventListener('mouseup',    onEnd,   false);
       btnEl.addEventListener('mouseleave', onCancel,false);
     })(n.id, btn);
+
     c.appendChild(btn);
   });
 }
@@ -408,27 +374,72 @@ function updateBtnCounts() {
     el.textContent = cnt;
     if (cnt>0) el.classList.add('show'); else el.classList.remove('show');
   });
-  var total = tiles.length;
-  document.getElementById('pendingCount').textContent = total;
+  document.getElementById('pendingCount').textContent = tiles.length;
 }
 
-/* ── Add tile ── */
-function addTile(noodleId, soup) {
+/* ── Popup ── */
+function openPopup(noodleId, takeout) {
   actx();
+  pendingNoodle  = noodleId;
+  pendingTakeout = takeout;
+  var n = getNoodle(noodleId);
+
+  document.getElementById('popupTitle').innerHTML =
+    n.name + ' <span class="popup-type ' + (takeout?'type-takeout':'type-dine') + '">' +
+    (takeout ? '外帶' : '內用') + '</span>';
+
+  var grid = document.getElementById('popupGrid');
+  grid.innerHTML = '';
+  OPTIONS.forEach(function(opt, idx) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'popup-btn';
+    btn.style.background = opt.bg;
+    btn.style.border = opt.soup ? '3px solid #2a6090' : '3px solid #444';
+    btn.innerHTML =
+      '<div class="pb-main" style="color:'+opt.text+'">'+opt.label+'</div>'+
+      '<div class="pb-sub"  style="color:'+opt.text+'">'+opt.sub+'</div>';
+    btn.onclick = (function(o){ return function(){ selectOption(o); }; })(opt);
+    grid.appendChild(btn);
+  });
+
+  document.getElementById('popupOverlay').classList.add('show');
+}
+
+function selectOption(opt) {
+  if (!pendingNoodle) return;
+  closePopup();
   seq++;
-  var t = { id: Date.now().toString(36)+(seq%999), s:seq, n:noodleId, soup:!!soup };
+  var t = {
+    id: Date.now().toString(36)+(seq%999),
+    s: seq,
+    n: pendingNoodle,
+    takeout: pendingTakeout,
+    soup: opt.soup,
+    big: opt.big
+  };
   tiles.push(t);
   save();
   addTileToDOM(t);
   updateBtnCounts();
   beep('add');
+  pendingNoodle = null;
 }
 
+function closePopup() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+/* 點 overlay 背景也關閉 */
+document.getElementById('popupOverlay').addEventListener('click', function(e){
+  if (e.target === this) closePopup();
+});
+
+/* ── Add tile to DOM ── */
 function addTileToDOM(tile) {
   var board = document.getElementById('board');
   document.getElementById('boardEmpty').style.display = 'none';
 
-  // ensure flat tiles container exists
   var grid = document.getElementById('flat-grid');
   if (!grid) {
     grid = document.createElement('div');
@@ -442,12 +453,27 @@ function addTileToDOM(tile) {
   el.className = 'tile';
   el.id = 'tile-'+tile.id;
   el.style.background = n.bg;
-  if (tile.soup) {
-    el.style.outline = '4px solid rgba(0,0,0,0.5)';
+
+  /* 外帶加虛線外框 */
+  if (tile.takeout) {
+    el.style.outline = '4px dashed rgba(0,0,0,0.45)';
     el.style.outlineOffset = '-4px';
   }
-  var label = tile.soup ? n.name+'(湯)' : n.name;
-  el.innerHTML = '<div class="tile-name" style="color:'+n.text+'">' + label + '</div>';
+  /* 湯麵加實線內框 */
+  if (tile.soup) {
+    el.style.boxShadow = 'inset 0 0 0 4px rgba(0,100,180,0.5)';
+  }
+
+  /* 副標：組合標示 */
+  var subs = [];
+  if (tile.soup) subs.push('湯');
+  if (tile.big)  subs.push('大碗');
+  if (tile.takeout) subs.push('外帶');
+
+  el.innerHTML =
+    '<div class="tile-name" style="color:'+n.text+'">'+n.name+'</div>' +
+    (subs.length ? '<div class="tile-sub" style="color:'+n.text+'">'+subs.join('・')+'</div>' : '');
+
   el.onclick = (function(id){ return function(){ removeTile(id); }; })(tile.id);
   grid.appendChild(el);
 }
@@ -459,10 +485,6 @@ function removeTile(id) {
   beep('done');
   el.classList.add('removing');
   el.onclick = null;
-
-  var nId = null;
-  for (var i=0;i<tiles.length;i++) if(tiles[i].id===id){ nId=tiles[i].n; break; }
-
   setTimeout(function(){
     tiles = tiles.filter(function(t){ return t.id!==id; });
     save();
@@ -477,48 +499,31 @@ function removeTile(id) {
   }, 160);
 }
 
-
-
 /* ── Reset (long press 3s) ── */
-var pressTimer = null;
-var pressingReset = false;
-
+var pressTimer=null, pressingReset=false;
 function resetStart(e) {
-  e.preventDefault();
-  if (pressingReset) return;
-  pressingReset = true;
-  var btn = document.getElementById('resetCorner');
-  btn.classList.add('pressing');
-  pressTimer = setTimeout(function() {
-    doReset();
-  }, 3000);
+  e.preventDefault(); if (pressingReset) return; pressingReset=true;
+  document.getElementById('resetCorner').classList.add('pressing');
+  pressTimer=setTimeout(doReset, 3000);
 }
-function resetEnd(e) {
-  if (!pressingReset) return;
-  pressingReset = false;
+function resetEnd() {
+  if (!pressingReset) return; pressingReset=false;
   clearTimeout(pressTimer);
-  var btn = document.getElementById('resetCorner');
-  btn.classList.remove('pressing');
+  document.getElementById('resetCorner').classList.remove('pressing');
 }
 function doReset() {
-  pressingReset = false;
-  var btn = document.getElementById('resetCorner');
-  btn.classList.remove('pressing');
+  pressingReset=false;
+  document.getElementById('resetCorner').classList.remove('pressing');
   if (!tiles.length){ showToast('目前沒有訂單'); return; }
-  tiles=[];
-  save();
-  var board=document.getElementById('board');
-  var empty=document.getElementById('boardEmpty');
-  board.innerHTML=''; board.appendChild(empty);
-  empty.style.display='flex';
-  updateBtnCounts();
-  showToast('已清除所有訂單');
+  tiles=[];  save();
+  var board=document.getElementById('board'), empty=document.getElementById('boardEmpty');
+  board.innerHTML=''; board.appendChild(empty); empty.style.display='flex';
+  updateBtnCounts(); showToast('已清除所有訂單');
 }
 
 function showToast(msg) {
   var el=document.getElementById('toast');
-  el.textContent=msg;
-  el.classList.add('show');
+  el.textContent=msg; el.classList.add('show');
   setTimeout(function(){ el.classList.remove('show'); },2000);
 }
 
@@ -531,28 +536,19 @@ function restore() {
 
 /* ── Wake Lock ── */
 function wakeLock(){
-  if ('wakeLock' in navigator)
-    navigator.wakeLock.request('screen').catch(function(){});
+  if ('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(function(){});
 }
 document.addEventListener('visibilitychange',function(){
   if (document.visibilityState==='visible') wakeLock();
 });
 
-/* ── Array.findIndex polyfill ── */
-if (!Array.prototype.findIndex) {
-  Array.prototype.findIndex = function(fn) {
-    for (var i=0;i<this.length;i++) if(fn(this[i])) return i;
-    return -1;
-  };
-}
-
-var rc = document.getElementById('resetCorner');
-rc.addEventListener('touchstart', resetStart, {passive: false});
-rc.addEventListener('touchend', resetEnd, false);
-rc.addEventListener('touchcancel', resetEnd, false);
-rc.addEventListener('mousedown', resetStart, false);
-rc.addEventListener('mouseup', resetEnd, false);
-rc.addEventListener('mouseleave', resetEnd, false);
+var rc=document.getElementById('resetCorner');
+rc.addEventListener('touchstart',resetStart,{passive:false});
+rc.addEventListener('touchend',  resetEnd,  false);
+rc.addEventListener('touchcancel',resetEnd, false);
+rc.addEventListener('mousedown', resetStart,false);
+rc.addEventListener('mouseup',   resetEnd,  false);
+rc.addEventListener('mouseleave',resetEnd,  false);
 
 buildButtons();
 restore();
