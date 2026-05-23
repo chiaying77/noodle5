@@ -102,7 +102,7 @@ body {
 
 /* ── Tile ── */
 .tile {
-  width: 130px; height: 122px; border-radius: 22px; border: none;
+  width: 130px; height: 140px; border-radius: 22px; border: none;
   display: -webkit-flex; display: flex;
   -webkit-flex-direction: column; flex-direction: column;
   -webkit-align-items: center; align-items: center;
@@ -131,7 +131,7 @@ body {
   from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(0.2); }
 }
 .tile-name { font-size: 22px; font-weight: 900; }
-.tile-sub   { font-size: 13px; font-weight: 700; opacity: 0.75; }
+.tile-sub   { font-size: 17px; font-weight: 900; opacity: 0.9; }
 
 /* ── Popup (四選項) ── */
 .popup-overlay {
@@ -466,8 +466,8 @@ function addTileToDOM(tile) {
 
   /* 副標：組合標示 */
   var subs = [];
-  if (tile.soup) subs.push('湯');
-  if (tile.big)  subs.push('大碗');
+  subs.push(tile.soup ? '湯麵' : '乾麵');
+  subs.push(tile.big  ? '大碗' : '小碗');
   if (tile.takeout) subs.push('外帶');
 
   el.innerHTML =
