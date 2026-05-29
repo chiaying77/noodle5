@@ -28,128 +28,97 @@ body {
   padding-left: var(--safe-left); padding-right: var(--safe-right);
 }
 
-/* ══════════════════════════
-   第一欄：麵種
-══════════════════════════ */
-.col-noodle {
-  width: 150px; -webkit-flex-shrink: 0; flex-shrink: 0;
-  background: #141414;
-  border-right: 2px solid #2a2a2a;
-  display: -webkit-flex; display: flex;
-  -webkit-flex-direction: column; flex-direction: column;
-  overflow: hidden;
-  padding: 6px 6px;
-  gap: 5px;
-}
-.noodle-btn {
-  width: 100%; height: 56px;
-  border-radius: 12px; border: none;
-  display: -webkit-flex; display: flex;
-  -webkit-align-items: center; align-items: center;
-  -webkit-justify-content: center; justify-content: center;
-  cursor: pointer; touch-action: manipulation;
-  -webkit-user-select: none; user-select: none;
-  -webkit-touch-callout: none; -webkit-appearance: none; appearance: none;
-  outline: 4px solid transparent; outline-offset: 2px;
-  -webkit-transition: outline-color .1s; transition: outline-color .1s;
-  position: relative;
-}
-.noodle-btn.selected { outline-color: #fff; }
-.noodle-btn:active { opacity: 0.6; }
-.noodle-btn-name { font-size: 35px; font-weight: 900; }
-.noodle-btn-cnt {
-  position: absolute; top: 4px; right: 6px;
-  font-size: 14px; font-weight: 900;
-  background: rgba(0,0,0,0.3); border-radius: 8px; padding: 1px 6px;
-  display: none;
-}
-.noodle-btn-cnt.show { display: block; }
-
-/* ══════════════════════════
-   第二欄：細節選項
-══════════════════════════ */
-.col-opts {
-  width: 150px; -webkit-flex-shrink: 0; flex-shrink: 0;
+/* ══ 左側 1/3 ══ */
+.left-panel {
+  width: 36%;
+  -webkit-flex-shrink: 0; flex-shrink: 0;
   background: #111;
   border-right: 2px solid #2a2a2a;
   display: -webkit-flex; display: flex;
   -webkit-flex-direction: column; flex-direction: column;
-  padding: 8px 8px;
-  gap: 6px;
+  padding: 6px;
+  gap: 4px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.opt-group-label {
-  font-size: 12px; font-weight: 700; color: #555;
-  letter-spacing: 2px; padding: 4px 2px 0;
+/* 每個群組 */
+.group { -webkit-flex-shrink: 0; flex-shrink: 0; }
+
+.group-label {
+  font-size: 13px; font-weight: 700; color: #444;
+  letter-spacing: 3px; padding: 1px 2px 2px;
 }
 
-.opt-row {
+.btn-row {
   display: -webkit-flex; display: flex;
   gap: 6px;
+  min-height: 120px;
 }
 
-.opt-btn { 
+/* 通用選項按鈕 */
+.sel-btn {
   -webkit-flex: 1; flex: 1;
-  height: 56px;
+  height: auto; min-height: 56px;
   border-radius: 12px;
   border: 2px solid #2a2a2a;
-  background: #1e1e1e; color: #666;
-  font-size: 35px; font-weight: 900;
+  background: #1a1a1a; color: #444;
+  font-size: 26px; font-weight: 900;
   cursor: pointer; touch-action: manipulation;
   -webkit-user-select: none; user-select: none;
   -webkit-touch-callout: none; -webkit-appearance: none; appearance: none;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: center; justify-content: center;
+  writing-mode: vertical-rl;
+  -webkit-writing-mode: vertical-rl;
+  text-orientation: upright;
   -webkit-transition: all .1s; transition: all .1s;
 }
-.opt-btn:active { opacity: 0.6; }
+.sel-btn:active { opacity: 0.6; }
 
 /* 選中樣式 */
-.opt-btn.sel-dry   { border-color: #aaa;    background: #2a2a2a; color: #fff; }
-.opt-btn.sel-soup  { border-color: #4a90d0; background: #0a2040; color: #7ec8f8; }
-.opt-btn.sel-small { border-color: #aaa;    background: #2a2a2a; color: #fff; }
-.opt-btn.sel-big   { border-color: #d0a040; background: #2a1a00; color: #ffd060; }
-.opt-btn.sel-in    { border-color: #40a060; background: #0a2010; color: #60d080; }
-.opt-btn.sel-out   { border-color: #d06020; background: #2a1000; color: #f0a040; }
-.opt-btn.sel-qty   { border-color: #c060e0; background: #1a0a28; color: #e090ff; }
+.sel-btn.on-noodle  { border-color: #F5C518; background: #2a1f00; color: #F5C518; }
+.sel-btn.on-topping { border-color: #E8503A; background: #2a0a00; color: #ff8060; }
+.sel-btn.on-soup    { border-color: #4a90d0; background: #0a2040; color: #7ec8f8; }
+.sel-btn.on-size    { border-color: #d0a040; background: #2a1a00; color: #ffd060; }
+.sel-btn.on-place   { border-color: #40a060; background: #0a2010; color: #60d080; }
 
-/* 數量按鈕小一點的字 */
-.opt-btn.qty-btn { font-size: 35px; }
+.group-divider {
+  height: 1px; background: #222; margin: 1px 0;
+  -webkit-flex-shrink: 0; flex-shrink: 0;
+}
 
-/* 送出按鈕 */
+/* 送出 */
 .submit-btn {
-  width: 100%; height: 60px;
-  border-radius: 12px; border: none;
-  background: #333; color: #555;
-  font-size: 22px; font-weight: 900;
+  width: 100%; height: 52px;
+  border-radius: 12px; border: 2px solid #2a2a2a;
+  background: #1a1a1a; color: #333;
+  font-size: 28px; font-weight: 900;
   cursor: pointer; touch-action: manipulation;
   -webkit-appearance: none; appearance: none;
+  -webkit-flex-shrink: 0; flex-shrink: 0;
   margin-top: 4px;
-  -webkit-transition: background .15s, color .15s; transition: background .15s, color .15s;
+  -webkit-transition: all .15s; transition: all .15s;
 }
 .submit-btn.ready {
+  border-color: #e8a000;
   background: linear-gradient(135deg, #e8a000, #c07800);
   color: #fff;
   box-shadow: 0 3px 12px rgba(232,160,0,0.3);
 }
 .submit-btn.ready:active { opacity: 0.7; }
 
-/* ══════════════════════════
-   第三欄：清單看板
-══════════════════════════ */
-.col-board {
+/* ══ 右側 2/3 ══ */
+.right-panel {
   -webkit-flex: 1; flex: 1;
   display: -webkit-flex; display: flex;
   -webkit-flex-direction: column; flex-direction: column;
-  overflow: hidden;
-  background: #0a0a0a;
+  overflow: hidden; background: #0a0a0a;
 }
 
 .board-header {
-  padding: 10px 16px;
-  background: #111; border-bottom: 2px solid #1e1e1e;
+  padding: 10px 14px; background: #111; border-bottom: 2px solid #1e1e1e;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
   -webkit-justify-content: space-between; justify-content: space-between;
@@ -157,12 +126,12 @@ body {
 }
 .board-title { font-size: 18px; font-weight: 900; }
 .pending-badge { font-size: 14px; color: #888; }
-.pending-badge b { color: #fff; font-size: 24px; font-weight: 900; }
+.pending-badge b { color: #fff; font-size: 22px; font-weight: 900; }
 
 .board {
   -webkit-flex: 1; flex: 1;
   overflow-y: scroll; -webkit-overflow-scrolling: touch;
-  padding: 10px 12px 80px;
+  padding: 10px 12px 60px;
 }
 .board-empty {
   height: 100%; display: -webkit-flex; display: flex;
@@ -171,85 +140,62 @@ body {
   -webkit-justify-content: center; justify-content: center;
   gap: 10px; opacity: 0.2; pointer-events: none;
 }
-.board-empty .ei { font-size: 56px; }
-.board-empty .et { font-size: 18px; font-weight: 700; color: #666; }
+.board-empty .ei { font-size: 52px; }
+.board-empty .et { font-size: 16px; font-weight: 700; color: #666; }
 
 /* 訂單列 */
 .order-row {
   display: -webkit-flex; display: flex;
   -webkit-align-items: stretch; align-items: stretch;
-  margin-bottom: 10px;
-  border-radius: 16px; overflow: hidden;
-  min-height: 54px;
-  cursor: pointer; touch-action: manipulation;
-  -webkit-user-select: none; user-select: none;
-  -webkit-touch-callout: none;
+  margin-bottom: 8px; border-radius: 14px; overflow: hidden;
+  min-height: 58px; cursor: pointer; touch-action: manipulation;
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
   -webkit-animation: row-in .2s cubic-bezier(.34,1.56,.64,1) both;
   animation: row-in .2s cubic-bezier(.34,1.56,.64,1) both;
 }
 .order-row:active { opacity: 0.5; }
 @-webkit-keyframes row-in {
-  from { opacity:0; -webkit-transform:translateX(-16px); }
+  from { opacity:0; -webkit-transform:translateX(16px); }
   to   { opacity:1; -webkit-transform:translateX(0); }
 }
 @keyframes row-in {
-  from { opacity:0; transform:translateX(-16px); }
+  from { opacity:0; transform:translateX(16px); }
   to   { opacity:1; transform:translateX(0); }
 }
 .order-row.removing {
-  overflow: hidden;
   -webkit-animation: row-out .2s ease-in forwards !important;
-  animation: row-out .2s ease-in forwards !important;
-  pointer-events: none;
+  animation: row-out .2s ease-in forwards !important; pointer-events: none;
 }
 @-webkit-keyframes row-out {
-  from { opacity:1; max-height:120px; margin-bottom:10px; }
+  from { opacity:1; max-height:100px; margin-bottom:8px; }
   to   { opacity:0; max-height:0;     margin-bottom:0; }
 }
 @keyframes row-out {
-  from { opacity:1; max-height:120px; margin-bottom:10px; }
+  from { opacity:1; max-height:100px; margin-bottom:8px; }
   to   { opacity:0; max-height:0;     margin-bottom:0; }
 }
-
-.row-bar { width: 14px; -webkit-flex-shrink: 0; flex-shrink: 0; }
-
+.row-bar { width: 12px; -webkit-flex-shrink: 0; flex-shrink: 0; }
 .row-body {
-  -webkit-flex: 1; flex: 1;
-  background: #1c1c1c;
+  -webkit-flex: 1; flex: 1; background: #1c1c1c;
   display: -webkit-flex; display: flex;
   -webkit-align-items: center; align-items: center;
-  padding: 4px 12px;
-  gap: 10px;
-}
-
-.row-noodle {
-  font-size: 33px; font-weight: 900;
-  padding: 5px 14px; border-radius: 10px;
-  white-space: nowrap; -webkit-flex-shrink: 0; flex-shrink: 0;
-}
-
-.row-tags {
-  display: -webkit-flex; display: flex;
-  gap: 8px; -webkit-flex-wrap: wrap; flex-wrap: wrap;
-  -webkit-flex: 1; flex: 1;
+  padding: 6px 14px; gap: 8px;
+  -webkit-flex-wrap: wrap; flex-wrap: wrap;
 }
 .row-tag {
-  font-size: 33px; font-weight: 900;
-  padding: 4px 14px; border-radius: 8px;
-  white-space: nowrap;
+  font-size: 28px; font-weight: 900;
+  padding: 3px 12px; border-radius: 8px; white-space: nowrap;
 }
-.tag-soup  { background: #0a2040; color: #7ec8f8; }
-.tag-dry   { background: #252525; color: #ccc; }
-.tag-big   { background: #2a1a00; color: #ffd060; }
-.tag-small { background: #252525; color: #ccc; }
-.tag-out   { background: #2a1000; color: #f0a040; }
-.tag-in    { background: #0a2010; color: #60d080; }
-.tag-qty   { background: #1a0a28; color: #e090ff; min-width: 56px; text-align: center; }
+.rt-noodle  { background: #2a1f00; color: #F5C518; }
+.rt-topping { background: #2a0a00; color: #ff8060; }
+.rt-soup    { background: #0a2040; color: #7ec8f8; }
+.rt-size    { background: #2a1a00; color: #ffd060; }
+.rt-place   { background: #0a2010; color: #60d080; }
 
 /* ══ Reset ══ */
 .reset-corner {
-  position: fixed; bottom: calc(16px + var(--safe-bottom)); right: calc(16px + var(--safe-right));
-  width: 52px; height: 52px; border-radius: 50%;
+  position: fixed; bottom: calc(14px + var(--safe-bottom)); right: calc(14px + var(--safe-right));
+  width: 50px; height: 50px; border-radius: 50%;
   border: 2px solid #2a2a2a; background: #181818; color: #444; font-size: 18px;
   cursor: pointer;
   display: -webkit-flex; display: flex;
@@ -257,14 +203,13 @@ body {
   -webkit-justify-content: center; justify-content: center;
   -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
   touch-action: none; z-index: 100;
-  -webkit-transition: border-color .2s, background .2s; transition: border-color .2s, background .2s;
 }
 .reset-corner.pressing { border-color: #ff5555; background: #2a1010; color: #ff5555; }
 .reset-corner svg { position: absolute; top:0; left:0;
   -webkit-transform: rotate(-90deg); transform: rotate(-90deg); pointer-events: none; }
 .reset-corner circle {
   fill: none; stroke: #ff5555; stroke-width: 3;
-  stroke-dasharray: 157; stroke-dashoffset: 157; stroke-linecap: round;
+  stroke-dasharray: 145; stroke-dashoffset: 145; stroke-linecap: round;
   -webkit-transition: none; transition: none;
 }
 .reset-corner.pressing circle {
@@ -274,9 +219,9 @@ body {
 
 /* ══ Toast ══ */
 .toast {
-  position: fixed; bottom: calc(18px + var(--safe-bottom)); left: 50%;
+  position: fixed; bottom: calc(16px + var(--safe-bottom)); left: 50%;
   -webkit-transform: translateX(-50%) translateY(14px); transform: translateX(-50%) translateY(14px);
-  background: #111; border: 2px solid #444; border-radius: 14px; padding: 12px 24px;
+  background: #111; border: 2px solid #444; border-radius: 14px; padding: 10px 22px;
   font-size: 16px; font-weight: 700; color: #fff;
   z-index: 999; opacity: 0; pointer-events: none; white-space: nowrap;
   -webkit-transition: opacity .2s, -webkit-transform .2s; transition: opacity .2s, transform .2s;
@@ -286,37 +231,93 @@ body {
 </head>
 <body>
 
-<!-- 第一欄：麵種 -->
-<div class="col-noodle" id="colNoodle"></div>
+<!-- 左側 1/3 -->
+<div class="left-panel">
 
-<!-- 第二欄：細節 -->
-<div class="col-opts">
-  <div class="opt-group-label">湯・乾</div>
-  <div class="opt-row">
-    <button type="button" class="opt-btn" id="opt-dry"  onclick="setOpt('soup',false)">乾</button>
-    <button type="button" class="opt-btn" id="opt-soup" onclick="setOpt('soup',true)">湯</button>
+  <!-- 麵種 -->
+  <div class="group">
+    <div class="group-label">麵　種</div>
+    <div class="btn-row">
+      <button type="button" class="sel-btn" id="bn-油麵"   onclick="toggle('noodle','油麵')">油麵</button>
+      <button type="button" class="sel-btn" id="bn-粗陽春" onclick="toggle('noodle','粗陽春')">粗陽春</button>
+      <button type="button" class="sel-btn" id="bn-細陽春" onclick="toggle('noodle','細陽春')">細陽春</button>
+      <button type="button" class="sel-btn" id="bn-米粉"   onclick="toggle('noodle','米粉')">米粉</button>
+      <button type="button" class="sel-btn" id="bn-冬粉"   onclick="toggle('noodle','冬粉')">冬粉</button>
+    </div>
   </div>
 
-  <div class="opt-group-label">大・小</div>
-  <div class="opt-row">
-    <button type="button" class="opt-btn" id="opt-small" onclick="setOpt('big',false)">小</button>
-    <button type="button" class="opt-btn" id="opt-big"   onclick="setOpt('big',true)">大</button>
+  <div class="group-divider"></div>
+
+  <!-- 配料 -->
+  <div class="group">
+    <div class="group-label">配　料</div>
+    <div class="btn-row">
+      <button type="button" class="sel-btn" id="bt-肉羹" onclick="toggle('topping','肉羹')">肉羹</button>
+      <button type="button" class="sel-btn" id="bt-花枝" onclick="toggle('topping','花枝')">花枝</button>
+      <button type="button" class="sel-btn" id="bt-魚酥" onclick="toggle('topping','魚酥')">魚酥</button>
+      <button type="button" class="sel-btn" id="bt-魷魚" onclick="toggle('topping','魷魚')">魷魚</button>
+    </div>
   </div>
 
-  <div class="opt-group-label">內・外</div>
-  <div class="opt-row">
-    <button type="button" class="opt-btn" id="opt-in"  onclick="setOpt('takeout',false)">內</button>
-    <button type="button" class="opt-btn" id="opt-out" onclick="setOpt('takeout',true)">外</button>
+  <div class="group-divider"></div>
+
+  <!-- 湯種 -->
+  <div class="group">
+    <div class="group-label">湯　種</div>
+    <div class="btn-row">
+      <button type="button" class="sel-btn" id="bs-乾"   onclick="toggle('soup','乾')">乾</button>
+      <button type="button" class="sel-btn" id="bs-羹湯" onclick="toggle('soup','羹湯')">羹湯</button>
+      <button type="button" class="sel-btn" id="bs-清湯" onclick="toggle('soup','清湯')">清湯</button>
+    </div>
   </div>
 
-  <div class="opt-group-label">數量</div>
-  <div class="opt-row" id="qtyRow1"></div>
+  <div class="group-divider"></div>
+
+  <!-- 大小 -->
+  <div class="group">
+    <div class="group-label">大　小</div>
+    <div class="btn-row">
+      <button type="button" class="sel-btn" id="bz-大碗" onclick="toggle('size','大碗')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">大碗</button>
+      <button type="button" class="sel-btn" id="bz-小碗" onclick="toggle('size','小碗')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">小碗</button>
+    </div>
+  </div>
+
+  <div class="group-divider"></div>
+
+  <!-- 內外 -->
+  <div class="group">
+    <div class="group-label">內外帶</div>
+    <div class="btn-row">
+      <button type="button" class="sel-btn" id="bp-內用" onclick="toggle('place','內用')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">內用</button>
+      <button type="button" class="sel-btn" id="bp-外帶" onclick="toggle('place','外帶')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">外帶</button>
+    </div>
+  </div>
+
+  
+
+  <!-- 數量 -->
+  <div class="group">
+    <div class="group-label">數　量</div>
+    <div class="btn-row" style="min-height:48px;">
+      <button type="button" class="sel-btn" id="bq-1" onclick="toggle('qty','1')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">1</button>
+      <button type="button" class="sel-btn" id="bq-2" onclick="toggle('qty','2')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">2</button>
+      <button type="button" class="sel-btn" id="bq-3" onclick="toggle('qty','3')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">3</button>
+      <button type="button" class="sel-btn" id="bq-4" onclick="toggle('qty','4')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">4</button>
+      <button type="button" class="sel-btn" id="bq-5" onclick="toggle('qty','5')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">5</button>
+      <button type="button" class="sel-btn" id="bq-6" onclick="toggle('qty','6')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">6</button>
+      <button type="button" class="sel-btn" id="bq-7" onclick="toggle('qty','7')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">7</button>
+      <button type="button" class="sel-btn" id="bq-8" onclick="toggle('qty','8')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">8</button>
+      <button type="button" class="sel-btn" id="bq-9" onclick="toggle('qty','9')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">9</button>
+    </div>
+  </div>
+
+  <div style="min-height:2px;"></div>
 
   <button type="button" class="submit-btn" id="submitBtn" onclick="submitOrder()">送出</button>
 </div>
 
-<!-- 第三欄：清單 -->
-<div class="col-board">
+<!-- 右側 2/3 -->
+<div class="right-panel">
   <div class="board-header">
     <div class="board-title">🍜 煮麵清單</div>
     <div class="pending-badge">待煮 <b id="pendingCount">0</b> 份</div>
@@ -330,25 +331,21 @@ body {
 </div>
 
 <div class="reset-corner" id="resetCorner">
-  <svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/></svg>
+  <svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="23"/></svg>
   🗑
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-var NOODLES = [
-  { id:'oil',   name:'油麵',   bg:'#F5C518', text:'#1a1000' },
-  { id:'thick', name:'粗陽春', bg:'#F0F0F0', text:'#111111' },
-  { id:'thin',  name:'細陽春', bg:'#A8D8F0', text:'#0a2a40' },
-  { id:'bean',  name:'冬粉',   bg:'#7ED98A', text:'#082210' },
-  { id:'rice',  name:'米粉',   bg:'#C8A0E8', text:'#1a0030' },
-  { id:'meat',  name:'肉羹',   bg:'#E8503A', text:'#fff'    },
-  { id:'squid', name:'花枝',   bg:'#F9C8E0', text:'#3a0020' },
-  { id:'fish',  name:'魚酥',   bg:'#F4A44A', text:'#2a1000' },
-  { id:'squid2',name:'魷魚',   bg:'#7EC8E8', text:'#002a3a' },
-];
+var NOODLE_COLORS = {
+  '油麵':  {bg:'#F5C518', text:'#1a1000'},
+  '粗陽春':{bg:'#F0F0F0', text:'#111'},
+  '細陽春':{bg:'#A8D8F0', text:'#0a2a40'},
+  '米粉':  {bg:'#C8A0E8', text:'#1a0030'},
+  '冬粉':  {bg:'#7ED98A', text:'#082210'},
+};
 
-var state = { noodle:null, soup:false, big:false, takeout:false, qty:1 };
+var sel = { noodle:null, topping:null, soup:null, size:null, place:null, qty:null };
 var tiles = load();
 var seq = tiles.length ? Math.max.apply(null, tiles.map(function(t){ return t.s||0; })) : 0;
 
@@ -376,203 +373,153 @@ function beep(type){
   }catch(e){}
 }
 
-/* ── Storage ── */
-function load(){ try{return JSON.parse(localStorage.getItem('nm8')||'[]');}catch(e){return[];} }
-function save(){ try{localStorage.setItem('nm8',JSON.stringify(tiles));}catch(e){} }
-function getNoodle(id){
-  for(var i=0;i<NOODLES.length;i++) if(NOODLES[i].id===id) return NOODLES[i];
-  return{id:id,name:id,bg:'#888',text:'#000'};
-}
+function load(){ try{return JSON.parse(localStorage.getItem('nm10')||'[]');}catch(e){return[];} }
+function save(){ try{localStorage.setItem('nm10',JSON.stringify(tiles));}catch(e){} }
 
-/* ── Build 第一欄麵種 ── */
-function buildNoodleBtns(){
-  var c=document.getElementById('colNoodle');
-  c.innerHTML='';
-  NOODLES.forEach(function(n){
-    var btn=document.createElement('button');
-    btn.type='button'; btn.className='noodle-btn'; btn.id='nb-'+n.id;
-    btn.style.background=n.bg;
-    btn.innerHTML=
-      '<span class="noodle-btn-name" style="color:'+n.text+'">'+n.name+'</span>'+
-      '<span class="noodle-btn-cnt" id="nc-'+n.id+'" style="color:'+n.text+'">0</span>';
-    btn.onclick=(function(id){return function(){selectNoodle(id);};})(n.id);
-    c.appendChild(btn);
-  });
-}
+/* ── Toggle ── */
+var PREFIX = { noodle:'bn-', topping:'bt-', soup:'bs-', size:'bz-', place:'bp-', qty:'bq-' };
+var CLASS  = { noodle:'on-noodle', topping:'on-topping', soup:'on-soup', size:'on-size', place:'on-place', qty:'on-size' };
 
-function selectNoodle(id){
+function toggle(key, val) {
   actx();
-  state.noodle=id;
-  var btns=document.querySelectorAll('.noodle-btn');
-  for(var i=0;i<btns.length;i++) btns[i].classList.remove('selected');
-  var el=document.getElementById('nb-'+id);
-  if(el) el.classList.add('selected');
-  updateSubmitBtn();
-}
+  /* 同群組只能選一個，再按同一個取消 */
+  var prev = sel[key];
+  sel[key] = (prev === val) ? null : val;
 
-/* ── Build 數量按鈕 ── */
-function buildQtyBtns(){
-  var r1=document.getElementById('qtyRow1');
-  r1.innerHTML='';
-  r1.style.cssText='-webkit-flex-direction:column;flex-direction:column;gap:6px;display:-webkit-flex;display:flex;';
-  for(var i=1;i<=5;i++){
-    var btn=document.createElement('button');
-    btn.type='button'; btn.className='opt-btn qty-btn'; btn.id='opt-qty-'+i;
-    btn.textContent=i;
-    btn.style.width='100%';
-    btn.onclick=(function(q){return function(){setOpt('qty',q);};})(i);
-    r1.appendChild(btn);
+  /* 更新上一個選中的按鈕 */
+  if (prev) {
+    var old = document.getElementById(PREFIX[key]+prev);
+    if (old) old.className = 'sel-btn';
   }
-}
-
-/* ── 選項狀態 ── */
-function setOpt(key,val){
-  actx();
-  state[key]=val;
-  updateOptUI();
-}
-
-function updateOptUI(){
-  document.getElementById('opt-dry').className   ='opt-btn'+(!state.soup?'    sel-dry':'');
-  document.getElementById('opt-soup').className  ='opt-btn'+(state.soup?'   sel-soup':'');
-  document.getElementById('opt-small').className ='opt-btn'+(!state.big?'   sel-small':'');
-  document.getElementById('opt-big').className   ='opt-btn'+(state.big?'    sel-big':'');
-  document.getElementById('opt-in').className    ='opt-btn'+(!state.takeout?' sel-in':'');
-  document.getElementById('opt-out').className   ='opt-btn'+(state.takeout?' sel-out':'');
-  for(var i=1;i<=5;i++){
-    var el=document.getElementById('opt-qty-'+i);
-    if(el) el.className='opt-btn qty-btn'+(state.qty===i?' sel-qty':'');
+  /* 更新新選中的按鈕 */
+  if (sel[key]) {
+    var el = document.getElementById(PREFIX[key]+sel[key]);
+    if (el) el.className = 'sel-btn ' + CLASS[key];
   }
-  updateSubmitBtn();
+  updateSubmit();
 }
 
-function updateSubmitBtn(){
-  var btn=document.getElementById('submitBtn');
-  if(state.noodle){
-    btn.className='submit-btn ready';
-    var n=getNoodle(state.noodle);
-    btn.textContent='送出 '+n.name;
-  } else {
-    btn.className='submit-btn';
-    btn.textContent='送出';
-  }
+function updateSubmit() {
+  var btn = document.getElementById('submitBtn');
+  btn.className = sel.noodle ? 'submit-btn ready' : 'submit-btn';
 }
 
-/* ── 送出訂單 ── */
-function submitOrder(){
-  if(!state.noodle) return;
+/* ── 送出 ── */
+function submitOrder() {
+  if (!sel.noodle) return;
   seq++;
-  var t={
-    id:Date.now().toString(36)+(seq%999),
-    s:seq, n:state.noodle,
-    soup:state.soup, big:state.big,
-    takeout:state.takeout, qty:state.qty
+  var t = {
+    id: Date.now().toString(36)+(seq%999),
+    s: seq,
+    noodle:  sel.noodle,
+    topping: sel.topping,
+    soup:    sel.soup,
+    size:    sel.size,
+    place:   sel.place,
+    qty:     sel.qty,
   };
   tiles.push(t);
   save();
   addRowToDOM(t);
-  updateBtnCounts();
+  updateCounts();
   beep('add');
 
-  /* 清掉麵種選擇，細節保留 */
-  state.noodle=null;
-  var btns=document.querySelectorAll('.noodle-btn');
-  for(var i=0;i<btns.length;i++) btns[i].classList.remove('selected');
-  updateSubmitBtn();
-}
-
-function updateBtnCounts(){
-  NOODLES.forEach(function(n){
-    var cnt=tiles.filter(function(t){return t.n===n.id;}).length;
-    var el=document.getElementById('nc-'+n.id);
-    if(!el) return;
-    el.textContent=cnt;
-    if(cnt>0) el.classList.add('show'); else el.classList.remove('show');
+  /* 清空所有選擇 */
+  Object.keys(sel).forEach(function(k){
+    if (sel[k]) {
+      var el = document.getElementById(PREFIX[k]+sel[k]);
+      if (el) el.className = 'sel-btn';
+    }
+    sel[k] = null;
   });
-  document.getElementById('pendingCount').textContent=tiles.length;
+  updateSubmit();
 }
 
-/* ── 新增列到看板 ── */
-function addRowToDOM(tile){
-  var board=document.getElementById('board');
-  document.getElementById('boardEmpty').style.display='none';
+function updateCounts() {
+  document.getElementById('pendingCount').textContent = tiles.length;
+}
 
-  var n=getNoodle(tile.n);
-  var row=document.createElement('div');
-  row.className='order-row'; row.id='row-'+tile.id;
+/* ── 加入清單 ── */
+function addRowToDOM(t) {
+  var board = document.getElementById('board');
+  document.getElementById('boardEmpty').style.display = 'none';
 
-  var bar=document.createElement('div');
-  bar.className='row-bar'; bar.style.background=n.bg;
+  var nc = NOODLE_COLORS[t.noodle] || {bg:'#888', text:'#fff'};
 
-  var body=document.createElement('div');
-  body.className='row-body';
+  var row = document.createElement('div');
+  row.className = 'order-row'; row.id = 'row-'+t.id;
 
-  var tagSoup  =tile.soup    ?'<span class="row-tag tag-soup">湯</span>'  :'<span class="row-tag tag-dry">乾</span>';
-  var tagSize  =tile.big     ?'<span class="row-tag tag-big">大</span>'   :'<span class="row-tag tag-small">小</span>';
-  var tagPlace =tile.takeout ?'<span class="row-tag tag-out">外</span>'   :'<span class="row-tag tag-in">內</span>';
-  var tagQty   ='<span class="row-tag tag-qty">'+(tile.qty||1)+'</span>';
+  var bar = document.createElement('div');
+  bar.className = 'row-bar'; bar.style.background = nc.bg;
 
-  body.innerHTML=
-    '<div class="row-noodle" style="background:'+n.bg+';color:'+n.text+'">'+n.name+'</div>'+
-    '<div class="row-tags">'+tagSoup+tagSize+tagPlace+tagQty+'</div>';
+  var body = document.createElement('div');
+  body.className = 'row-body';
+
+  var html = '<span class="row-tag rt-noodle" style="background:'+nc.bg+';color:'+nc.text+'">'+t.noodle+'</span>';
+  if (t.topping) html += '<span class="row-tag rt-topping">'+t.topping+'</span>';
+  if (t.soup)    html += '<span class="row-tag rt-soup">'+t.soup+'</span>';
+  if (t.size)    html += '<span class="row-tag rt-size">'+t.size+'</span>';
+  if (t.place)   html += '<span class="row-tag rt-place">'+t.place+'</span>';
+  if (t.qty)     html += '<span class="row-tag rt-size">'+t.qty+'份</span>';
+  body.innerHTML = html;
 
   row.appendChild(bar); row.appendChild(body);
-  row.onclick=(function(id){return function(){removeRow(id);};})(tile.id);
+  row.onclick = (function(id){ return function(){ removeRow(id); }; })(t.id);
   board.insertBefore(row, board.firstChild);
 }
 
 /* ── 移除列 ── */
-function removeRow(id){
-  var el=document.getElementById('row-'+id);
-  if(!el) return;
+function removeRow(id) {
+  var el = document.getElementById('row-'+id);
+  if (!el) return;
   beep('done');
-  el.classList.add('removing'); el.onclick=null;
+  el.classList.add('removing'); el.onclick = null;
   setTimeout(function(){
-    tiles=tiles.filter(function(t){return t.id!==id;});
+    tiles = tiles.filter(function(t){ return t.id!==id; });
     save();
-    if(el.parentNode) el.parentNode.removeChild(el);
-    if(!tiles.length){
-      var board=document.getElementById('board'),empty=document.getElementById('boardEmpty');
+    if (el.parentNode) el.parentNode.removeChild(el);
+    if (!tiles.length) {
+      var board=document.getElementById('board'), empty=document.getElementById('boardEmpty');
       board.innerHTML=''; board.appendChild(empty); empty.style.display='flex';
     }
-    updateBtnCounts();
-  },220);
+    updateCounts();
+  }, 220);
 }
 
 /* ── Reset ── */
-var pressTimer=null,pressingReset=false;
-function resetStart(e){
+var pressTimer=null, pressingReset=false;
+function resetStart(e) {
   e.preventDefault(); if(pressingReset)return; pressingReset=true;
   document.getElementById('resetCorner').classList.add('pressing');
   pressTimer=setTimeout(doReset,3000);
 }
-function resetEnd(){
+function resetEnd() {
   if(!pressingReset)return; pressingReset=false;
   clearTimeout(pressTimer);
   document.getElementById('resetCorner').classList.remove('pressing');
 }
-function doReset(){
+function doReset() {
   pressingReset=false;
   document.getElementById('resetCorner').classList.remove('pressing');
   if(!tiles.length){showToast('目前沒有訂單');return;}
   tiles=[];save();
   var board=document.getElementById('board'),empty=document.getElementById('boardEmpty');
   board.innerHTML='';board.appendChild(empty);empty.style.display='flex';
-  updateBtnCounts();showToast('已清除所有訂單');
+  updateCounts();showToast('已清除所有訂單');
 }
 
-function showToast(msg){
+function showToast(msg) {
   var el=document.getElementById('toast');
-  el.textContent=msg;el.classList.add('show');
-  setTimeout(function(){el.classList.remove('show');},2000);
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); },2000);
 }
 
 /* ── Restore ── */
-function restore(){
+function restore() {
   if(!tiles.length)return;
-  var sorted=tiles.slice().sort(function(a,b){return (a.s||0)-(b.s||0);});
-  sorted.forEach(function(t){addRowToDOM(t);});
-  updateBtnCounts();
+  tiles.slice().sort(function(a,b){return (a.s||0)-(b.s||0);})
+    .forEach(function(t){addRowToDOM(t);});
+  updateCounts();
 }
 
 /* ── Wake Lock ── */
@@ -591,9 +538,6 @@ rc.addEventListener('mousedown', resetStart,false);
 rc.addEventListener('mouseup',   resetEnd,  false);
 rc.addEventListener('mouseleave',resetEnd,  false);
 
-buildNoodleBtns();
-buildQtyBtns();
-updateOptUI();
 restore();
 wakeLock();
 </script>
