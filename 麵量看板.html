@@ -277,12 +277,12 @@ body {
 
   <div class="row-label">配　料</div>
   <div class="btn-row">
-    <button class="sb" id="bt-肉羹" onclick="tog('t','肉羹')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:72px;">肉羹</button>
-    <button class="sb" id="bt-花枝" onclick="tog('t','花枝')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:72px;">花枝</button>
-    <button class="sb" id="bt-魚酥" onclick="tog('t','魚酥')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:72px;">魚酥</button>
-    <button class="sb" id="bt-魷魚" onclick="tog('t','魷魚')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:72px;">魷魚</button>
-    <button class="sb" id="bt-蘿蔔" onclick="tog('t','蘿蔔')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:72px;">蘿蔔</button>
-    <button class="sb" id="bt-綜合" onclick="tog('t','綜合')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:72px;">綜合</button>
+    <button class="sb" id="bt-肉羹" onclick="tog('t','肉羹')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:80px;">肉羹</button>
+    <button class="sb" id="bt-花枝" onclick="tog('t','花枝')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:80px;">花枝</button>
+    <button class="sb" id="bt-魚酥" onclick="tog('t','魚酥')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:80px;">魚酥</button>
+    <button class="sb" id="bt-魷魚" onclick="tog('t','魷魚')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:80px;">魷魚</button>
+    <button class="sb" id="bt-蘿蔔" onclick="tog('t','蘿蔔')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:80px;">蘿蔔</button>
+    <button class="sb" id="bt-綜合" onclick="tog('t','綜合')" style="writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;height:auto;min-height:80px;">綜合</button>
   </div>
 
   <div class="sep"></div>
@@ -551,14 +551,14 @@ function addRow(t){
 
   wrapper.appendChild(hint);
   wrapper.appendChild(row);
-  board.insertBefore(wrapper, board.firstChild);
+  board.appendChild(wrapper);
 }
 
 /* ── 右滑刪除邏輯 ── */
 function attachSwipe(wrapper, hint, row, id){
   var startX=0, startY=0, dx=0;
   var swiping=false, committed=false;
-  var THRESHOLD = 80; /* px，滑超過這個距離才刪除 */
+  var THRESHOLD = 60; /* px，滑超過這個距離才刪除 */
 
   function onStart(e){
     if(committed) return;
