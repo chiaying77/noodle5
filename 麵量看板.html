@@ -53,7 +53,7 @@ body {
 .btn-row {
   display: -webkit-flex; display: flex;
   gap: 6px;
-  min-height: 120px;
+  min-height: 120px; /* 麵種 */
 }
 
 /* 通用選項按鈕 */
@@ -251,7 +251,7 @@ body {
   <!-- 配料 -->
   <div class="group">
     <div class="group-label">配　料</div>
-    <div class="btn-row">
+    <div class="btn-row" style="min-height:72px;">
       <button type="button" class="sel-btn" id="bt-肉羹" onclick="toggle('topping','肉羹')">肉羹</button>
       <button type="button" class="sel-btn" id="bt-花枝" onclick="toggle('topping','花枝')">花枝</button>
       <button type="button" class="sel-btn" id="bt-魚酥" onclick="toggle('topping','魚酥')">魚酥</button>
@@ -264,7 +264,7 @@ body {
   <!-- 湯種 -->
   <div class="group">
     <div class="group-label">湯　種</div>
-    <div class="btn-row">
+    <div class="btn-row" style="min-height:72px;">
       <button type="button" class="sel-btn" id="bs-乾"   onclick="toggle('soup','乾')">乾</button>
       <button type="button" class="sel-btn" id="bs-羹湯" onclick="toggle('soup','羹湯')">羹湯</button>
       <button type="button" class="sel-btn" id="bs-清湯" onclick="toggle('soup','清湯')">清湯</button>
@@ -282,8 +282,6 @@ body {
     </div>
   </div>
 
-  <div class="group-divider"></div>
-
   <!-- 內外 -->
   <div class="group">
     <div class="group-label">內外帶</div>
@@ -292,8 +290,6 @@ body {
       <button type="button" class="sel-btn" id="bp-外帶" onclick="toggle('place','外帶')" style="writing-mode:horizontal-tb;-webkit-writing-mode:horizontal-tb;height:48px;">外帶</button>
     </div>
   </div>
-
-  
 
   <!-- 數量 -->
   <div class="group">
