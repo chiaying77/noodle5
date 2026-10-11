@@ -1,0 +1,29 @@
+{
+ "id": "./noodle-board",
+ "name": "看板",
+ "short_name": "看板",
+ "start_url": "./%E9%9B%99%E6%A9%9F%E7%9C%8B%E6%9D%BF.html?role=board&room=lu-nw6re6grxj",
+ "scope": "./",
+ "display": "fullscreen",
+ "display_override": [
+  "fullscreen",
+  "standalone"
+ ],
+ "orientation": "landscape",
+ "background_color": "#0a0a0a",
+ "theme_color": "#0a0a0a",
+ "icons": [
+  {
+   "src": "icon-board-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-board-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  }
+ ]
+}

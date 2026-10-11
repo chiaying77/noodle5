@@ -1,0 +1,29 @@
+{
+ "id": "./noodle-order",
+ "name": "點菜機",
+ "short_name": "點菜機",
+ "start_url": "./%E9%9B%99%E6%A9%9F%E7%9C%8B%E6%9D%BF.html?role=order&room=lu-nw6re6grxj",
+ "scope": "./",
+ "display": "fullscreen",
+ "display_override": [
+  "fullscreen",
+  "standalone"
+ ],
+ "orientation": "landscape",
+ "background_color": "#0a0a0a",
+ "theme_color": "#0a0a0a",
+ "icons": [
+  {
+   "src": "icon-order-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-order-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  }
+ ]
+}

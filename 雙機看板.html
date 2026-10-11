@@ -8,6 +8,23 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="煮麵看板">
 <title>煮麵看板</title>
+<meta name="theme-color" content="#0a0a0a">
+<script>
+/* 讓「安裝」後的 App 全螢幕、沒有網址列：依照這台的角色掛上對應的設定 */
+(function(){
+  try{
+    var m = /[?&]role=(order|board)/.exec(location.search);
+    var r = m ? m[1] : localStorage.getItem('nm2_role');
+    if(r !== 'order' && r !== 'board') return;
+    var l = document.createElement('link'); l.rel = 'manifest'; l.href = 'manifest-' + r + '.webmanifest';
+    document.head.appendChild(l);
+    var i = document.createElement('link'); i.rel = 'icon'; i.href = 'icon-' + r + '-192.png';
+    document.head.appendChild(i);
+    if('serviceWorker' in navigator && location.protocol.indexOf('http') === 0)
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+  }catch(e){}
+})();
+</script>
 <style>
 :root {
   --safe-top: env(safe-area-inset-top, 0px);
