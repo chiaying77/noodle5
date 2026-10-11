@@ -390,7 +390,8 @@ var ROOM = q('room') || lsGet('nm2_room');
 if(q('role')) lsSet('nm2_role', q('role'));
 if(q('room')) lsSet('nm2_room', q('room'));
 var BROKERS = q('broker') ? [q('broker')] : DEFAULT_BROKERS;
-var DEV = lsGet('nm2_dev'); if(!DEV){ DEV = rnd(8); lsSet('nm2_dev', DEV); }
+/* 每個分頁各自一個代號，同一台開兩個分頁也能互傳 */
+var DEV = rnd(10);
 var START = Date.now();
 
 function doSetup(role){
@@ -547,6 +548,14 @@ function onMessage(payload){
   if(localChanged || !covers(inc, state)) publishSoon(300);
   updateLink(); updateBar();
 }
+/* 同一台裝置上的其他分頁改了資料，也馬上合併進來 */
+window.addEventListener('storage', function(e){
+  if(e.key !== SKEY || !e.newValue) return;
+  try{
+    var inc = JSON.parse(e.newValue);
+    onMessage(JSON.stringify({ from: 'local-'+rnd(4), role: null, at: Date.now(), st: inc }));
+  }catch(x){}
+});
 /* 每 25 秒報一次平安，順便補傳 */
 setInterval(function(){ if(anyConnected()) publishNow(); }, 25000);
 setInterval(function(){ updateLink(); updateBar(); updateTimes(); }, 3000);
