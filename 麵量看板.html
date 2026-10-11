@@ -128,7 +128,8 @@ body {
   -webkit-justify-content: space-between; justify-content: space-between;
   -webkit-flex-shrink: 0; flex-shrink: 0;
 }
-.board-title { font-size: 18px; font-weight: 900; }
+.board-title { font-size: 18px; font-weight: 900;
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .pending-badge { font-size: 14px; color: #888; }
 .pending-badge b { color: #fff; font-size: 22px; font-weight: 900; }
 
@@ -253,10 +254,32 @@ body {
   -webkit-transform: translateX(-50%) translateY(14px); transform: translateX(-50%) translateY(14px);
   background: #111; border: 2px solid #444; border-radius: 14px; padding: 10px 22px;
   font-size: 16px; font-weight: 700; color: #fff;
-  z-index: 999; opacity: 0; pointer-events: none; white-space: nowrap;
+  z-index: 3000; opacity: 0; pointer-events: none; white-space: nowrap;
   -webkit-transition: opacity .2s, -webkit-transform .2s; transition: opacity .2s, transform .2s;
 }
 .toast.show { opacity:1; -webkit-transform:translateX(-50%) translateY(0); transform:translateX(-50%) translateY(0); }
+
+/* ══ 使用紀錄（隱藏頁面，長按標題3秒開啟）══ */
+.stats-overlay {
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,.95); z-index: 2000; display: none;
+  overflow-y: scroll; -webkit-overflow-scrolling: touch;
+  padding: calc(20px + var(--safe-top)) 20px calc(40px + var(--safe-bottom));
+}
+.stats-overlay.show { display: block; }
+.stats-box { max-width: 780px; margin: 0 auto; font-size: 18px; line-height: 1.7; }
+.stats-box h2 { font-size: 26px; margin-bottom: 4px; }
+.stats-sub { font-size: 15px; color: #888; margin-bottom: 12px; }
+.stats-btns { display: -webkit-flex; display: flex; gap: 10px; margin: 12px 0 16px; -webkit-flex-wrap: wrap; flex-wrap: wrap; }
+.stats-btn {
+  height: 48px; padding: 0 20px; border-radius: 10px; border: 1px solid #555;
+  background: #333; color: #fff; font-size: 18px; font-weight: 700;
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+}
+.stats-card { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 14px 18px; margin-bottom: 12px; }
+.stats-card h3 { font-size: 20px; color: #e0b800; margin-bottom: 6px; }
+.stats-warn { color: #ff8060; font-weight: 700; }
+.stats-dim { color: #888; }
 </style>
 </head>
 <body>
@@ -324,7 +347,7 @@ body {
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
     <div class="preview-content">
       <div class="preview-tags" id="previewTags"></div>
-      <button class="cancel-btn" onclick="cancelOrder()">取消</button>
+      <button class="cancel-btn" onclick="cancelOrder(true)">取消</button>
     </div>
   </div>
 
@@ -333,7 +356,7 @@ body {
 <!-- 右側 -->
 <div class="right">
   <div class="board-header">
-    <div class="board-title">🍜 煮麵清單</div>
+    <div class="board-title" id="boardTitle">🍜 煮麵清單</div>
     <div class="pending-badge">待煮 <b id="pendingCount">0</b> 份</div>
   </div>
   <div class="board" id="board">
@@ -348,6 +371,19 @@ body {
   <svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="23"/></svg>🗑
 </div>
 <div class="toast" id="toast"></div>
+
+<!-- 使用紀錄頁（長按「煮麵清單」標題3秒開啟） -->
+<div class="stats-overlay" id="statsOverlay">
+  <div class="stats-box">
+    <h2>📊 使用紀錄</h2>
+    <div class="stats-sub">只存在這台 iPad 上，保留最近 60 天。</div>
+    <div class="stats-btns">
+      <button class="stats-btn" onclick="copyStats()">複製文字</button>
+      <button class="stats-btn" onclick="closeStats()">關閉</button>
+    </div>
+    <div id="statsBody"></div>
+  </div>
+</div>
 
 <script>
 var NC = {
@@ -367,6 +403,22 @@ var seq = tiles.length ? Math.max.apply(null, tiles.map(function(t){return t.s||
 /* ── 倒數狀態 ── */
 var countdownTimer = null;
 var isCountingDown = false;
+
+/* ══ 安靜紀錄（不影響任何操作）══ */
+var LOGK = 'nmlog1';
+var draft = { ch:0, st:0 };   /* 這一筆：改選次數、開始選的時間 */
+function logLoad(){ try{ return JSON.parse(localStorage.getItem(LOGK)||'[]'); }catch(e){ return []; } }
+function logEv(o){
+  try{
+    o.at = Date.now();
+    var l = logLoad(); l.push(o);
+    var cut = Date.now() - 60*86400000;
+    l = l.filter(function(x){ return x.at >= cut; });
+    if(l.length > 8000) l = l.slice(l.length-8000);
+    localStorage.setItem(LOGK, JSON.stringify(l));
+  }catch(e){}
+}
+function resetDraft(){ draft = { ch:0, st:0 }; }
 
 /* ── Audio ── */
 var _ctx=null;
@@ -399,6 +451,8 @@ function save(){ try{localStorage.setItem('nm12',JSON.stringify(tiles));}catch(e
 function tog(grp, val){
   actx();
   var prev = sel[grp];
+  if(!draft.st) draft.st = Date.now();
+  if(prev) draft.ch++;   /* 已選過又改 = 改選 */
   if(prev){
     var old=document.getElementById(GP[grp]+prev);
     if(old) old.className='sb';
@@ -408,7 +462,7 @@ function tog(grp, val){
   
   var hasAny = Object.keys(sel).some(function(k){ return sel[k]!==null; });
   if(hasAny) startCountdown();
-  else cancelOrder();
+  else cancelOrder(false);
 }
 
 /* ══ 項目一：3秒倒數自動送出 ══ */
@@ -452,7 +506,9 @@ function updatePreview(){
   tags.innerHTML = html;
 }
 
-function cancelOrder(){
+function cancelOrder(manual){
+  if(draft.st) logEv({ e: manual ? 'cancel' : 'clear', ch: draft.ch });
+  resetDraft();
   clearTimeout(countdownTimer);
   isCountingDown = false;
   document.getElementById('previewBar').classList.remove('show');
@@ -478,6 +534,11 @@ function commitOrder(){
   };
   tiles.push(t); save();
   addRow(t); updateCount(); beep('add');
+
+  logEv({ e:'add', n:sel.n, t:sel.t, s:sel.s, z:sel.z, p:sel.p, q:sel.q,
+          ch: draft.ch,
+          pick: draft.st ? Math.max(0, Math.round((Date.now()-draft.st)/1000) - 3) : 0 });
+  resetDraft();
 
   /* 清空選擇 */
   Object.keys(sel).forEach(function(k){
@@ -620,6 +681,11 @@ function attachSwipe(wrapper, hint, row, id){
 /* ── 移除列 ── */
 function removeRow(id){
   beep('done');
+  var gone = tiles.filter(function(t){return t.id===id;})[0];
+  if(gone){
+    var pend = tiles.filter(function(t){return (t.s||0) < (gone.s||0);}).length;
+    logEv({ e:'done', n:gone.n, w: Math.round((Date.now()-(gone.ts||Date.now()))/1000), skip: pend });
+  }
   tiles=tiles.filter(function(t){return t.id!==id;});
   save();
   var wrapper=document.getElementById('wrap-'+id);
@@ -647,6 +713,7 @@ function resetEnd(){
 function doReset(){
   pr=false; document.getElementById('resetCorner').classList.remove('pressing');
   if(!tiles.length){showToast('目前沒有訂單');return;}
+  logEv({ e:'reset', c: tiles.length });
   tiles=[];save();
   var board=document.getElementById('board'),empty=document.getElementById('boardEmpty');
   board.innerHTML=''; board.appendChild(empty); empty.style.display='flex';
@@ -658,6 +725,171 @@ function showToast(msg){
   el.textContent=msg; el.classList.add('show');
   setTimeout(function(){el.classList.remove('show');},2000);
 }
+
+/* ══ 使用紀錄頁 ══ */
+var ALL_BTNS = {
+  n:['油麵','粗陽春','細陽春','米粉','冬粉'],
+  t:['肉羹','花枝','魚酥','魷魚','蘿蔔','綜合'],
+  s:['乾','羹湯','清湯'],
+  z:['大碗','小碗'],
+  p:['內用','外帶']
+};
+var FIELD_NAME = { n:'麵種', t:'配料', s:'湯種', z:'大小', p:'內外' };
+
+function dayKey(ts){
+  var d=new Date(ts);
+  var w=['日','一','二','三','四','五','六'][d.getDay()];
+  return (d.getMonth()+1)+'/'+d.getDate()+'（'+w+'）';
+}
+function fmtSec(s){
+  if(s < 60) return s+'秒';
+  var m=Math.floor(s/60), r=s%60;
+  return r ? m+'分'+r+'秒' : m+'分';
+}
+
+function buildStats(){
+  var log = logLoad();
+  var lines = [];   /* [文字, 是否警示] */
+  if(!log.length){
+    return [{title:'還沒有紀錄', rows:[['看板開始使用後，這裡就會出現資料。',false]]}];
+  }
+  /* 依日期分組 */
+  var days = {}, order = [];
+  log.forEach(function(x){
+    var k = dayKey(x.at);
+    if(!days[k]){ days[k]=[]; order.push(k); }
+    days[k].push(x);
+  });
+  var cards = [];
+  order.slice(-7).reverse().forEach(function(k){
+    var ev = days[k];
+    var adds = ev.filter(function(x){return x.e==='add';});
+    var dones = ev.filter(function(x){return x.e==='done';});
+    var cancels = ev.filter(function(x){return x.e==='cancel'||x.e==='clear';});
+    var resets = ev.filter(function(x){return x.e==='reset';});
+    var bowls = adds.reduce(function(a,x){return a+(parseInt(x.q,10)||1);},0);
+    var rows = [];
+    rows.push(['送出 '+adds.length+' 筆，共 '+bowls+' 份', false]);
+    if(adds.length){
+      var first=new Date(adds[0].at), last=new Date(adds[adds.length-1].at);
+      var hm=function(d){return d.getHours()+':'+('0'+d.getMinutes()).slice(-2);};
+      rows.push(['第一筆 '+hm(first)+'，最後一筆 '+hm(last), false]);
+      /* 尖峰小時 */
+      var hrs={}; adds.forEach(function(x){var h=new Date(x.at).getHours(); hrs[h]=(hrs[h]||0)+1;});
+      var ph=null; Object.keys(hrs).forEach(function(h){ if(ph===null||hrs[h]>hrs[ph]) ph=h; });
+      rows.push(['最忙的時段 '+ph+':00–'+(+ph+1)+':00（'+hrs[ph]+' 筆）', false]);
+    }
+    var changed = adds.filter(function(x){return x.ch>0;}).length;
+    if(adds.length) rows.push(['送出前有改選的：'+changed+' 筆（'+Math.round(changed*100/adds.length)+'%）', changed*5 > adds.length]);
+    rows.push(['按「取消」或全部取消選擇：'+cancels.length+' 次', cancels.length >= 3]);
+    var quick = dones.filter(function(x){return x.w < 20;}).length;
+    rows.push(['送出後 20 秒內就滑掉（可能點錯）：'+quick+' 次', quick >= 3]);
+    var real = dones.filter(function(x){return x.w >= 20;});
+    if(real.length){
+      var avg = Math.round(real.reduce(function(a,x){return a+x.w;},0)/real.length);
+      var mx = Math.max.apply(null, real.map(function(x){return x.w;}));
+      rows.push(['從送出到滑掉（煮好）平均 '+fmtSec(avg)+'，最久 '+fmtSec(mx), false]);
+    }
+    var outOrder = dones.filter(function(x){return x.skip>0 && x.w>=20;}).length;
+    if(real.length) rows.push(['沒照順序煮（先煮後面的單）：'+outOrder+' 次', false]);
+    if(adds.length){
+      var miss = [];
+      ['n','s','z','p'].forEach(function(f){
+        var c = adds.filter(function(x){return !x[f];}).length;
+        if(c) miss.push(FIELD_NAME[f]+' '+c+' 筆');
+      });
+      rows.push(['沒選的欄位：'+(miss.length?miss.join('、'):'都有選'), miss.length>0]);
+    }
+    if(resets.length) rows.push(['用了「全部清除」'+resets.length+' 次', false]);
+    if(adds.length){
+      var unfinished = adds.length - dones.length - resets.reduce(function(a,x){return a+(x.c||0);},0);
+      if(unfinished > 0) rows.push(['沒有滑掉、留在清單上的：約 '+unfinished+' 筆', unfinished >= 5]);
+    }
+    cards.push({title:k, rows:rows});
+  });
+
+  /* 全部期間：按鈕使用次數 */
+  var allAdds = log.filter(function(x){return x.e==='add';});
+  if(allAdds.length){
+    var rows2 = [];
+    Object.keys(ALL_BTNS).forEach(function(f){
+      var parts = ALL_BTNS[f].map(function(v){
+        var c = allAdds.filter(function(x){return x[f]===v;}).length;
+        return v+' '+c;
+      });
+      rows2.push([FIELD_NAME[f]+'：'+parts.join('、'), false]);
+    });
+    var unused = [];
+    Object.keys(ALL_BTNS).forEach(function(f){
+      ALL_BTNS[f].forEach(function(v){
+        if(!allAdds.some(function(x){return x[f]===v;})) unused.push(v);
+      });
+    });
+    if(unused.length) rows2.push(['從沒用過的按鈕：'+unused.join('、'), true]);
+    var avgPick = Math.round(allAdds.reduce(function(a,x){return a+(x.pick||0);},0)/allAdds.length);
+    rows2.push(['每筆平均花 '+avgPick+' 秒選完（不含3秒倒數）', false]);
+    cards.push({title:'全部紀錄（'+order.length+' 天，'+allAdds.length+' 筆）', rows:rows2});
+  }
+
+  cards.push({title:'怎麼看', rows:[
+    ['紅字是值得留意的地方，不代表一定有問題。', false],
+    ['改選多 → 按鈕可能不好找或排列不順手', false],
+    ['秒刪多、取消多 → 常按錯，按鈕可能太小太近，或倒數太快', false],
+    ['某欄常沒選 → 他可能覺得那欄不需要，或嫌麻煩', false],
+    ['留在清單上的多 → 他可能忙到沒空滑，或沒在看清單', false],
+    ['某天筆數特別少 → 那天可能沒在用看板', false]
+  ]});
+  return cards;
+}
+
+function openStats(){
+  var cards = buildStats();
+  var html = '';
+  cards.forEach(function(c){
+    html += '<div class="stats-card"><h3>'+c.title+'</h3>';
+    c.rows.forEach(function(r){
+      html += '<div'+(r[1]?' class="stats-warn"':'')+'>'+(r[1]?'⚠️ ':'')+r[0]+'</div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('statsBody').innerHTML = html;
+  document.getElementById('statsOverlay').classList.add('show');
+}
+function closeStats(){ document.getElementById('statsOverlay').classList.remove('show'); }
+
+function copyStats(){
+  var txt = '煮麵看板使用紀錄\n\n';
+  buildStats().forEach(function(c){
+    txt += '【'+c.title+'】\n';
+    c.rows.forEach(function(r){ txt += (r[1]?'⚠ ':'・')+r[0]+'\n'; });
+    txt += '\n';
+  });
+  function fallback(){
+    var ta=document.createElement('textarea'); ta.value=txt;
+    ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); showToast('已複製，可以貼給 Claude'); }
+    catch(e){ showToast('複製失敗，請截圖'); }
+    document.body.removeChild(ta);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ showToast('已複製，可以貼給 Claude'); }, fallback);
+  } else fallback();
+}
+
+/* 長按標題3秒開啟（爸爸平常不會碰到） */
+(function(){
+  var el=document.getElementById('boardTitle'), timer=null;
+  function start(e){ clearTimeout(timer); timer=setTimeout(openStats,3000); }
+  function stop(){ clearTimeout(timer); }
+  el.addEventListener('touchstart',start,{passive:true});
+  el.addEventListener('touchend',stop,false);
+  el.addEventListener('touchcancel',stop,false);
+  el.addEventListener('touchmove',stop,false);
+  el.addEventListener('mousedown',start,false);
+  el.addEventListener('mouseup',stop,false);
+  el.addEventListener('mouseleave',stop,false);
+})();
 
 /* ── Restore ── */
 function restore(){
